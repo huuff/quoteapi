@@ -23,7 +23,8 @@ paths:
       operationId: v1AuthorRandom
       parameters:
         - name: author
-          in: query
+          in: path
+          required: true
           schema:
             type: string
             example: "shakespeare" # TODO: Or am I gonna use full name?
@@ -43,7 +44,8 @@ paths:
       operationId: v1TagRandom
       parameters:
         - name: tag
-          in: query
+          in: path
+          required: true
           schema:
             type: string
             example: "motivational"

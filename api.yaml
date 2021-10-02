@@ -4,7 +4,7 @@ info:
   version: 0.0.1
 
 paths:
-  /api/v1/quote:
+  /v1/quote:
     get:
       description: Get a random quote
       summary: Random quote
@@ -16,7 +16,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Quote"
-  /api/v1/author/{author}:
+  /v1/author/{author}:
     get:
       description: Get a random quote by specified author
       summary: Random quote by author
@@ -37,7 +37,7 @@ paths:
                 $ref: "#/components/schemas/Quote"
         "404":
           description: Author not found
-  /api/v1/tag/{tag}:
+  /v1/tag/{tag}:
     get:
       description: Get a random quote with specified tag
       summary: Random quote by tag

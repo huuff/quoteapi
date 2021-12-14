@@ -5,6 +5,7 @@ module.exports = {
   },
   globals: {
     defineProps: "readonly",
+    defineEmits: "readonly",
   },
   extends: [
     "plugin:vue/vue3-essential",

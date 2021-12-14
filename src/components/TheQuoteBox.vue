@@ -1,5 +1,5 @@
 <template>
-  <main class="card px-0">
+  <main class="card px-0" id="quoteBox">
     <div class="card-header">
       <h5>Quote</h5>
     </div>
@@ -17,6 +17,9 @@
         </figure>
       </transition>
     </div>
+    <div class="card-footer">
+      <button class="btn btn-secondary" @click="$emit('requestRandom')">Random</button>
+    </div>
   </main>
 </template>
 
@@ -30,6 +33,8 @@ const props = defineProps({
     required: true
   } ,
 });
+
+const emit = defineEmits([ "requestRandom" ])
 </script>
 
 <style>
@@ -41,5 +46,9 @@ const props = defineProps({
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+#quoteBox {
+  min-height: 30%;
 }
 </style>

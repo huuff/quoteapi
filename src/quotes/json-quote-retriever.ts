@@ -7,10 +7,6 @@ export class JsonQuoteRetriever implements QuoteRetriever {
   private quotes: Promise<Quote[]>;
 
   constructor() {
-    //this.quotes = fetch("./sample-quotes.json")
-      //.then(response => response.json())
-      //.then(json => JSON.parse(json))
-      //;
     this.quotes = Promise.resolve(sampleQuotes);
   }
 

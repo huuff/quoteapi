@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onUnmounted } from 'vue';
 import TheQuoteBox from '@/components/TheQuoteBox.vue';
 import { Quote } from '@/quotes/quote';
 import { JsonQuoteRetriever } from '@/quotes/json-quote-retriever';
@@ -18,32 +18,34 @@ import { JsonQuoteRetriever } from '@/quotes/json-quote-retriever';
 const quoteRetriever = new JsonQuoteRetriever();
 
 const currentQuote = ref<Quote | null>(null);
-requestRandom();
 
-let interval: number | null = null;
+let interval: number | undefined = undefined;
 
 function restartInterval() {
-  if (interval)
-    clearInterval(interval);
-  interval = setInterval(() => update(quoteRetriever.random()), 5000);
+  clearInterval(interval);
+  interval = setInterval(() => updateQuote(quoteRetriever.random()), 5000);
 }
 
-function update(promisedQuote: Promise<Quote>) {
-  promisedQuote.then(newQuote => currentQuote.value = newQuote);
+function updateQuote(promisedQuote: Promise<Quote>) {
+  promisedQuote.then(newQuote => {
+    console.log(`Updating with: ${JSON.stringify(newQuote)}`);
+    currentQuote.value = newQuote;
+  });
 }
 
 function requestRandom() {
-  update(quoteRetriever.random());
+  updateQuote(quoteRetriever.random());
   restartInterval();
 }
 
 function requestAuthor(author: string) {
-  update(quoteRetriever.byAuthor(author));
+  updateQuote(quoteRetriever.byAuthor(author));
   restartInterval();
 }
 
-restartInterval();
+onUnmounted(() => clearInterval(interval));
 
+requestRandom();
 </script>
 
 <style>

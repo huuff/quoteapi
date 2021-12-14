@@ -3,16 +3,16 @@
     <div class="card-header">
       <h5>Quote</h5>
     </div>
-    <div class="card-body px-4">
+    <div class="card-body px-4 d-flex flex-column justify-content-center">
       <transition name="fade" mode="out-in">
-        <figure :key="currentQuote.contents">
+        <figure :key="currentQuote.contents" >
           <blockquote class="blockquote">
             <p>
               {{ currentQuote.contents }}
             </p>
           </blockquote>
           <figcaption class="blockquote-footer">
-            {{ currentQuote.author }}
+            {{ currentQuote.author }}<span v-if="currentQuote.work">, {{ currentQuote.work }}</span>
           </figcaption>
         </figure>
       </transition>

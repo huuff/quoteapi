@@ -17,8 +17,19 @@
         </figure>
       </transition>
     </div>
-    <div class="card-footer">
-      <button class="btn btn-secondary" @click="$emit('requestRandom')">Random</button>
+    <div id="quoteBoxActions"
+      class="card-footer d-flex flex-row justify-content-between align-items-baseline"
+      >
+      <div>
+        <transition-group name="fade">
+          <a v-for="tag in currentQuote.tags" :key="tag" href="#" class="card-link">{{tag}}</a>
+        </transition-group>
+      </div>
+
+      <div>
+        <button class="btn btn-info" @click="$emit('requestAuthor', currentQuote.author)">Same author</button>
+        <button class="btn btn-secondary" @click="$emit('requestRandom')">Random</button>
+      </div>
     </div>
   </main>
 </template>
@@ -34,7 +45,7 @@ const props = defineProps({
   } ,
 });
 
-const emit = defineEmits([ "requestRandom" ])
+const emit = defineEmits([ "requestRandom", "requestAuthor" ])
 </script>
 
 <style>
@@ -50,5 +61,11 @@ const emit = defineEmits([ "requestRandom" ])
 
 #quoteBox {
   min-height: 30%;
+}
+
+#quoteBoxActions button,
+#quoteBoxActions a
+{
+  margin: 0 0.2em;
 }
 </style>

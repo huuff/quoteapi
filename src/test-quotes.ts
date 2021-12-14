@@ -31,5 +31,13 @@ const testQuotes: Quote[] = [
 ];
 
 export function randomQuote(): Quote {
-  return testQuotes[Math.floor(Math.random() * testQuotes.length)];
+  return randomElement(testQuotes);
+}
+
+export function randomFromAuthor(author: string): Quote {
+  return randomElement(testQuotes.filter(quote => quote.author === author));
+}
+
+function randomElement<T>(array: T[]): T {
+  return array[Math.floor(Math.random() * array.length)];
 }

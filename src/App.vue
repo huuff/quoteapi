@@ -1,9 +1,9 @@
 <template>
-
   <div class="vh-100 row justify-content-center align-items-center">
     <the-quote-box 
       :currentQuote="currentQuote"
       @requestRandom="requestRandom"
+      @requestAuthor="requestAuthor"
       class="col-lg-8"
     ></the-quote-box>
   </div>
@@ -13,7 +13,7 @@
 import { ref } from 'vue';
 import TheQuoteBox from '@/components/TheQuoteBox.vue';
 import { Quote } from '@/quote';
-import { randomQuote } from '@/test-quotes';
+import { randomQuote, randomFromAuthor } from '@/test-quotes';
 
 const currentQuote = ref<Quote>(randomQuote());
 let interval: number | null = null;
@@ -21,15 +21,20 @@ let interval: number | null = null;
 function restartInterval() {
   if (interval)
     clearInterval(interval);
-  interval = setInterval(updateWithRandom, 5000);
+  interval = setInterval(() => update(randomQuote()), 5000);
 }
 
-function updateWithRandom() {
-  currentQuote.value = randomQuote();
+function update(newQuote: Quote) {
+  currentQuote.value = newQuote;
 }
 
 function requestRandom() {
-  updateWithRandom();
+  update(randomQuote());
+  restartInterval();
+}
+
+function requestAuthor(author: string) {
+  update(randomFromAuthor(author));
   restartInterval();
 }
 

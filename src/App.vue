@@ -1,13 +1,19 @@
 <template>
-  <p>Test </p>
+
+  <div class="vh-100 row justify-content-center align-items-center">
+    <the-quote-box 
+      :currentQuote="currentQuote"
+      class="col-lg-8 h-25"
+    ></the-quote-box>
+  </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { ref } from 'vue';
+import TheQuoteBox from '@/components/TheQuoteBox.vue';
+import { Quote, testQuotes } from '@/quote';
 
-export default defineComponent({
-  name: "App",
-});
+const currentQuote = ref<Quote>(testQuotes[0]);
 </script>
 
 <style>

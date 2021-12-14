@@ -24,9 +24,11 @@
       class="card-footer d-flex flex-row justify-content-between align-items-baseline"
       >
       <div v-if="currentQuote">
-        <transition-group name="fade-group">
-          <a v-for="tag in currentQuote.tags" :key="tag" href="#" class="card-link">{{tag}}</a>
-        </transition-group>
+        <transition name="fade" mode="out-in">
+          <span :key="currentQuote.tags">
+            <a v-for="tag in currentQuote.tags" :key="tag" href="#" class="card-link">{{tag}}</a>
+          </span>
+        </transition>
       </div>
 
       <div>
@@ -39,7 +41,7 @@
 
 <script setup lang="ts">
 import { PropType } from 'vue';
-import { Quote } from '@/quote';
+import { Quote } from '@/quotes/quote';
 
 const props = defineProps({
   currentQuote: {
@@ -59,21 +61,6 @@ const emit = defineEmits([ "requestRandom", "requestAuthor" ])
 
 .fade-enter-from,
 .fade-leave-to {
-  opacity: 0;
-}
-
-/* Needed so the list transition works */
-.fade-group-out-in-enter-active,
-.fade-group-out-in-leave-active {
-  transition: opacity 0.75s;
-}
-
-.fade-group-out-in-enter-active {
-  transition-delay: 0.75s;
-}
-
-.fade-group-out-in-enter,
-.fade-group-out-in-leave-to {
   opacity: 0;
 }
 

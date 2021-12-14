@@ -8,7 +8,7 @@
         <figure :key="currentQuote.contents" >
           <blockquote class="blockquote">
             <p>
-              {{ currentQuote.contents }}
+              “{{ currentQuote.contents }}”
             </p>
           </blockquote>
           <figcaption class="blockquote-footer">

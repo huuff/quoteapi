@@ -4,7 +4,7 @@
       :currentQuote="currentQuote"
       @requestRandom="requestRandom"
       @requestAuthor="requestAuthor"
-      class="col-lg-8"
+      class="col col-sm-8 col-lg-6"
     ></the-quote-box>
   </div>
 </template>

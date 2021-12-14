@@ -28,6 +28,12 @@ const testQuotes: Quote[] = [
     tags: [ "gothic" ],
     work: "Frankenstein",
   },
+
+  {
+    author: "Richard Feynman",
+    contents: "Study hard what interests you the most in the most undisciplined, irreverent, and original manner possible.",
+    tags: [ "inspirational" ],
+  },
 ];
 
 export function randomQuote(): Quote {

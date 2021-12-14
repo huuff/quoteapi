@@ -11,9 +11,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import TheQuoteBox from '@/components/TheQuoteBox.vue';
-import { Quote, testQuotes } from '@/quote';
+import { Quote } from '@/quote';
+import { randomQuote } from '@/test-quotes';
 
-const currentQuote = ref<Quote>(testQuotes[0]);
+const currentQuote = ref<Quote>(randomQuote());
+
+setInterval(() => currentQuote.value = randomQuote(), 5000);
 </script>
 
 <style>

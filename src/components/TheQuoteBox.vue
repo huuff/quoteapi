@@ -4,16 +4,18 @@
       <h5>Quote</h5>
     </div>
     <div class="card-body px-4">
-      <figure>
-        <blockquote class="blockquote">
-          <p>
-            {{ currentQuote.contents }}
-          </p>
-        </blockquote>
-        <figcaption>
-          {{ currentQuote.author }}
-        </figcaption>
-      </figure>
+      <transition name="fade" mode="out-in">
+        <figure :key="currentQuote.contents">
+          <blockquote class="blockquote">
+            <p>
+              {{ currentQuote.contents }}
+            </p>
+          </blockquote>
+          <figcaption class="blockquote-footer">
+            {{ currentQuote.author }}
+          </figcaption>
+        </figure>
+      </transition>
     </div>
   </main>
 </template>
@@ -29,3 +31,15 @@ const props = defineProps({
   } ,
 });
 </script>
+
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.75s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

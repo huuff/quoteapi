@@ -4,7 +4,7 @@
       <h5>Quote</h5>
     </div>
     <div class="card-body px-4 d-flex flex-column justify-content-center">
-      <transition name="fade" mode="out-in">
+      <transition v-if="currentQuote" name="fade" mode="out-in">
         <figure :key="currentQuote.contents" >
           <blockquote class="blockquote">
             <p>
@@ -16,11 +16,14 @@
           </figcaption>
         </figure>
       </transition>
+      <div v-else class="spinner-border mx-auto" role="status" style="height: 3rem; width: 3rem;">
+        <span class="visually-hidden">Loading...</span>
+      </div>
     </div>
     <div id="quoteBoxActions"
       class="card-footer d-flex flex-row justify-content-between align-items-baseline"
       >
-      <div>
+      <div v-if="currentQuote">
         <transition-group name="fade">
           <a v-for="tag in currentQuote.tags" :key="tag" href="#" class="card-link">{{tag}}</a>
         </transition-group>
@@ -40,8 +43,8 @@ import { Quote } from '@/quote';
 
 const props = defineProps({
   currentQuote: {
-    type: Object as PropType<Quote>,
-    required: true
+    type: Object as PropType<Quote | null>,
+    required: false
   } ,
 });
 

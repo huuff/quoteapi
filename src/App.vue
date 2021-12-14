@@ -18,6 +18,8 @@ import { JsonQuoteRetriever } from '@/quotes/json-quote-retriever';
 const quoteRetriever = new JsonQuoteRetriever();
 
 const currentQuote = ref<Quote | null>(null);
+requestRandom();
+
 let interval: number | null = null;
 
 function restartInterval() {

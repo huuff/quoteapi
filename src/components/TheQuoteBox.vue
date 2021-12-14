@@ -26,13 +26,13 @@
       <div v-if="currentQuote">
         <transition name="fade" mode="out-in">
           <span :key="currentQuote.tags">
-            <a v-for="tag in currentQuote.tags" :key="tag" href="#" class="card-link">{{tag}}</a>
+            <a v-for="tag in currentQuote.tags" :key="tag" href="#" class="card-link" @click="$emit('requestByTag', tag)">{{tag}}</a>
           </span>
         </transition>
       </div>
 
       <div>
-        <button class="btn btn-info" @click="$emit('requestAuthor', currentQuote.author)">Same author</button>
+        <button class="btn btn-info" @click="$emit('requestByAuthor', currentQuote.author)">Same author</button>
         <button class="btn btn-secondary" @click="$emit('requestRandom')">Random</button>
       </div>
     </div>
@@ -50,7 +50,7 @@ const props = defineProps({
   } ,
 });
 
-const emit = defineEmits([ "requestRandom", "requestAuthor" ])
+const emit = defineEmits([ "requestRandom", "requestByAuthor", "requestByTag" ])
 </script>
 
 <style>

@@ -17,4 +17,8 @@ export class JsonQuoteRetriever implements QuoteRetriever {
   async byAuthor(author: string): Promise<Quote> {
     return this.quotes.then(quotes => randomElement(quotes.filter(q => q.author === author)));
   }
+
+  async byTag(tag: string): Promise<Quote> {
+    return this.quotes.then(quotes => randomElement(quotes.filter(q => q.tags.includes(tag))))
+  }
 }

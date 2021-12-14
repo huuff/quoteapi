@@ -3,7 +3,8 @@
     <the-quote-box 
       :currentQuote="currentQuote"
       @requestRandom="requestRandom"
-      @requestAuthor="requestAuthor"
+      @requestByAuthor="requestByAuthor"
+      @requestByTag="requestByTag"
       class="col col-sm-8 col-lg-6"
     ></the-quote-box>
   </div>
@@ -38,8 +39,13 @@ function requestRandom() {
   restartInterval();
 }
 
-function requestAuthor(author: string) {
+function requestByAuthor(author: string) {
   updateQuote(quoteRetriever.byAuthor(author));
+  restartInterval();
+}
+
+function requestByTag(tag: string) {
+  updateQuote(quoteRetriever.byTag(tag));
   restartInterval();
 }
 

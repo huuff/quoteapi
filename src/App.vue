@@ -12,29 +12,31 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import TheQuoteBox from '@/components/TheQuoteBox.vue';
-import { Quote } from '@/quote';
-import { randomQuote, randomFromAuthor } from '@/test-quotes';
+import { Quote } from '@/quotes/quote';
+import { JsonQuoteRetriever } from '@/quotes/json-quote-retriever';
 
-const currentQuote = ref<Quote>(randomQuote());
+const quoteRetriever = new JsonQuoteRetriever();
+
+const currentQuote = ref<Quote | null>(null);
 let interval: number | null = null;
 
 function restartInterval() {
   if (interval)
     clearInterval(interval);
-  interval = setInterval(() => update(randomQuote()), 5000);
+  interval = setInterval(() => update(quoteRetriever.random()), 5000);
 }
 
-function update(newQuote: Quote) {
-  currentQuote.value = newQuote;
+function update(promisedQuote: Promise<Quote>) {
+  promisedQuote.then(newQuote => currentQuote.value = newQuote);
 }
 
 function requestRandom() {
-  update(randomQuote());
+  update(quoteRetriever.random());
   restartInterval();
 }
 
 function requestAuthor(author: string) {
-  update(randomFromAuthor(author));
+  update(quoteRetriever.byAuthor(author));
   restartInterval();
 }
 

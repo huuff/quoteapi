@@ -6,10 +6,10 @@
   <div class="vh-100 row justify-content-center align-items-center">
     <the-quote-box 
       :currentQuote="currentQuote"
-      @requestRandom="requestRandom"
-      @requestByAuthor="requestByAuthor"
-      @requestByTag="requestByTag"
-      @requestByWork="requestByWork"
+      @request-random="requestRandom"
+      @request-by-author="requestByAuthor"
+      @request-by-tag="requestByTag"
+      @request-by-work="requestByWork"
       class="col col-sm-8 col-lg-6"
     ></the-quote-box>
   </div>

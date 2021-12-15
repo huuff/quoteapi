@@ -12,7 +12,7 @@
             </p>
           </blockquote>
           <figcaption class="blockquote-footer">
-            {{ currentQuote.author }}<cite v-if="currentQuote.work">, <span class="work" @click="$emit('requestByWork', currentQuote.work)">{{ currentQuote.work }}</span></cite>
+            {{ currentQuote.author }}<cite v-if="currentQuote.work">, <span class="work" @click="$emit('request-by-work', currentQuote.work)">{{ currentQuote.work }}</span></cite>
           </figcaption>
         </figure>
       </transition>
@@ -26,14 +26,14 @@
       <div v-if="currentQuote">
         <transition name="fade" mode="out-in">
           <span :key="currentQuote.tags">
-            <a v-for="tag in currentQuote.tags" :key="tag" href="#" class="card-link" @click="$emit('requestByTag', tag)">{{tag}}</a>
+            <a v-for="tag in currentQuote.tags" :key="tag" href="#" class="card-link" @click="$emit('request-by-tag', tag)">{{tag}}</a>
           </span>
         </transition>
       </div>
 
       <div>
-        <button class="btn btn-info" @click="$emit('requestByAuthor', currentQuote.author)">Same author</button>
-        <button class="btn btn-secondary" @click="$emit('requestRandom')">Random</button>
+        <button class="btn btn-info" @click="$emit('request-by-author', currentQuote.author)">Same author</button>
+        <button class="btn btn-secondary" @click="$emit('request-random')">Random</button>
       </div>
     </div>
   </main>
@@ -50,7 +50,12 @@ const props = defineProps({
   } ,
 });
 
-const emit = defineEmits([ "requestRandom", "requestByAuthor", "requestByTag", "requestByWork" ])
+const emit = defineEmits<{
+  (event: 'request-random'): void;
+  (event: 'request-by-author', author: string): void;
+  (event: 'request-by-tag', tag: string): void;
+  (event: 'request-by-work', work: string): void;
+}>();
 </script>
 
 <style>

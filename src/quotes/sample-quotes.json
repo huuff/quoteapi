@@ -13,6 +13,13 @@
     "work": "Beyond Good and Evil"
   },
 
+  {
+    "author": "Friedrich Nietzsche",
+    "contents": "The Great Man... is colder, harder, less hesitating, and without fear of 'opinion'; he lacks the virtues that accompany respect and 'respectability,' and altogether everything that is the 'virtue of the herd.' If he cannot lead, he goes alone... He knows he is incommunicable: he finds it tasteless to be familiar... When not speaking to himself, he wears a mask. There is a solitude within him that is inaccessible to praise or blame.",
+    "tags": [],
+    "work": "The Will to Power"
+  },
+
   { 
     "author": "Mary Shelley", 
     "contents": "I have love in me the likes of which you can scarcely imagine and rage the likes of which you would not believe. If I cannot satisfy the one, I will indulge the other.",

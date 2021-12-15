@@ -8,19 +8,30 @@
   </div>
   <div class="collapse" ref="collapsibleElement">
     <div class="card-body">
-      <p>Test text</p>
+      <ul>
+        <li v-for="msg in log.toArray()" :key="msg.timestamp">{{ JSON.stringify(msg) }}</li>
+      </ul>
     </div>
   </div>
 </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, PropType } from 'vue';
 import { Collapse } from 'bootstrap';
+import { RingBuffer } from 'ring-buffer-ts';
+import { DebugMessage } from '@/debug/debug-message';
 
 const collapsibleElement = ref<null | Element>(null);
 let collapsible: null | Collapse;
 const show = ref(false);
+
+const props = defineProps({
+  log: {
+    type: Object as PropType<RingBuffer<DebugMessage>>,
+    required: true,
+  },
+});
 
 onMounted(() => {
   if (collapsibleElement.value) {
@@ -39,5 +50,10 @@ watch(show, (newValue: boolean) => {
 <style scoped>
 .card {
   width: 400px;
+}
+
+.card-body {
+  max-height: 400px;
+  overflow: scroll;
 }
 </style>

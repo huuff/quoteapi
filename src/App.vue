@@ -8,11 +8,13 @@
       class="col col-sm-8 col-lg-6"
     ></the-quote-box>
   </div>
+  <the-debug-window class="fixed-bottom ms-4"></the-debug-window>
 </template>
 
 <script setup lang="ts">
 import { ref, onUnmounted } from 'vue';
 import TheQuoteBox from '@/components/TheQuoteBox.vue';
+import TheDebugWindow from '@/components/TheDebugWindow.vue';
 import { Quote } from '@/quotes/quote';
 import { JsonQuoteRetriever } from '@/quotes/json-quote-retriever';
 

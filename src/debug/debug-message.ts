@@ -1,6 +1,6 @@
 import { Quote } from '@/quotes/quote';
 
-export type DebugMessageType = 'received-quote' | 'request-by-author' | 'request-random' | 'request-by-tag' | 'request-by-work';
+export type DebugMessageType = 'received' | 'requested';
 
 export class DebugMessage {
   public readonly timestamp = new Date();

@@ -12,7 +12,7 @@
             </p>
           </blockquote>
           <figcaption class="blockquote-footer">
-            {{ currentQuote.author }}<cite v-if="currentQuote.work">, <span class="work" @click="$emit('request-by-work', currentQuote.work)">{{ currentQuote.work }}</span></cite>
+            {{ currentQuote.author }}<cite v-if="currentQuote.work">, <span class="work" @click="$emit('requestQuery', 'work', currentQuote.work)">{{ currentQuote.work }}</span></cite>
           </figcaption>
         </figure>
       </transition>
@@ -26,14 +26,14 @@
       <div v-if="currentQuote">
         <transition name="fade" mode="out-in">
           <span :key="currentQuote.tags">
-            <a v-for="tag in currentQuote.tags" :key="tag" href="#" class="card-link" @click="$emit('request-by-tag', tag)">{{tag}}</a>
+            <a v-for="tag in currentQuote.tags" :key="tag" href="#" class="card-link" @click="$emit('requestQuery', 'tag', tag)">{{tag}}</a>
           </span>
         </transition>
       </div>
 
       <div>
-        <button class="btn btn-info" @click="$emit('request-by-author', currentQuote.author)">Same author</button>
-        <button class="btn btn-secondary" @click="$emit('request-random')">Random</button>
+        <button class="btn btn-info" @click="$emit('requestQuery', 'author', currentQuote.author)">Same author</button>
+        <button class="btn btn-secondary" @click="$emit('requestRandom')">Random</button>
       </div>
     </div>
   </main>
@@ -42,6 +42,7 @@
 <script setup lang="ts">
 import { PropType } from 'vue';
 import { Quote } from '@/quotes/quote';
+import { RequestType } from '@/request-type';
 
 const props = defineProps({
   currentQuote: {
@@ -51,10 +52,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits<{
-  (event: 'request-random'): void;
-  (event: 'request-by-author', author: string): void;
-  (event: 'request-by-tag', tag: string): void;
-  (event: 'request-by-work', work: string): void;
+  (event: 'requestRandom'): void;
+  (event: 'requestQuery', type: RequestType, author: string): void;
 }>();
 </script>
 

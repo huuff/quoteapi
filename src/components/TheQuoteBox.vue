@@ -24,6 +24,7 @@
       class="card-footer d-flex flex-row justify-content-between align-items-baseline"
       >
       <div v-if="currentQuote">
+        <font-awesome-icon :icon="['far', 'heart']" class="fa-lg me-2 text-danger" id="like"></font-awesome-icon>
         <transition name="fade" mode="out-in">
           <span :key="currentQuote.tags">
             <a v-for="tag in currentQuote.tags" :key="tag" href="#" class="card-link" @click="$emit('requestQuery', 'tag', tag)">{{tag}}</a>
@@ -78,7 +79,12 @@ const emit = defineEmits<{
  text-decoration: underline; 
 }
 
-.work {
+.work, #like {
   cursor: pointer;
+}
+
+#like:hover {
+  transform: scale(1.2);
+  transition: transform 0.2s;
 }
 </style>

@@ -3,11 +3,14 @@ import App from "./App.vue";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronUp, faChevronDown, faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 library.add(faChevronUp);
 library.add(faChevronDown);
+library.add(fasHeart);
+library.add(farHeart);
 
 createApp(App)
   .component("font-awesome-icon", FontAwesomeIcon)

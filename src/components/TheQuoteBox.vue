@@ -40,16 +40,12 @@
 </template>
 
 <script setup lang="ts">
-import { PropType } from 'vue';
 import { Quote } from '@/quotes/quote';
 import { RequestType } from '@/request-type';
 
-const props = defineProps({
-  currentQuote: {
-    type: Object as PropType<Quote | null>,
-    required: false
-  } ,
-});
+const props = defineProps<{
+  currentQuote?: Quote
+}>();
 
 const emit = defineEmits<{
   (event: 'requestRandom'): void;

@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, PropType } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { Collapse } from 'bootstrap';
 import { RingBuffer } from 'ring-buffer-ts';
 import { DebugMessage, DebugMessageType } from '@/debug/debug-message';
@@ -35,12 +35,9 @@ const logElement = ref<null | Element>(null);
 const show = ref(false);
 let collapsible: null | Collapse;
 
-const props = defineProps({
-  log: {
-    type: Object as PropType<RingBuffer<DebugMessage>>,
-    required: true,
-  },
-});
+const props = defineProps<{
+  log: RingBuffer<DebugMessage>;
+}>();
 
 onMounted(() => {
   if (collapsibleElement.value) {

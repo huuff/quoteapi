@@ -1,5 +1,3 @@
-import { Quote } from '@/quotes/quote';
-
 export type DebugMessageType = 'received' | 'requested';
 
 export class DebugMessage {

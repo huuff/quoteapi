@@ -1,5 +1,5 @@
 <template>
-  <main class="card px-0" id="quoteBox">
+  <main class="card px-0 shadow-lg" id="quoteBox">
     <div class="card-header">
       <h5>Quote</h5>
     </div>

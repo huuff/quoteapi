@@ -15,9 +15,7 @@
         >
         <div class="text-muted">{{ msg.timestamp.toISOString() }}</div>
         <div class="text-primary">{{ msg.type }} </div> <!-- TODO: Color depending on type -->
-        <p>
-          {{ JSON.stringify(msg.contents, null, 2) }}
-        </p>
+        <p v-text="JSON.stringify(msg.contents, null, 2)" class="pre-wrap"></p>
         </li>
       </ul>
     </div>
@@ -73,5 +71,9 @@ watch(() => props.log.toArray(), () => {
 .card-body {
   max-height: 400px;
   overflow: scroll;
+}
+
+.pre-wrap {
+  white-space: pre-wrap;
 }
 </style>

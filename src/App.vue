@@ -20,18 +20,19 @@ import { ref, onUnmounted, reactive } from 'vue';
 import TheQuoteBox from '@/components/TheQuoteBox.vue';
 import TheDebugWindow from '@/components/TheDebugWindow.vue';
 import { Quote } from '@/quotes/quote';
-import { JsonQuoteRetriever } from '@/quotes/json-quote-retriever';
+import { JsonQuoteProvider } from '@/quotes/json-quote-provider';
+import { QuoteProvider } from '@/quotes/quote-provider';
 import { RingBuffer } from 'ring-buffer-ts';
 import { DebugMessage } from '@/debug/debug-message';
 
-const quoteRetriever = new JsonQuoteRetriever();
+const quoteProvider: QuoteProvider = new JsonQuoteProvider();
 const currentQuote = ref<Quote | null>(null);
 let interval: number | undefined = undefined;
 const debugLog = reactive(new RingBuffer<DebugMessage>(15));
 
 function restartInterval() {
   clearInterval(interval);
-  interval = setInterval(() => updateQuote(quoteRetriever.random()), 5000);
+  interval = setInterval(() => updateQuote(quoteProvider.random()), 5000);
 }
 
 function updateQuote(promisedQuote: Promise<Quote>) {
@@ -43,25 +44,25 @@ function updateQuote(promisedQuote: Promise<Quote>) {
 
 function requestRandom() {
   debugLog.add(new DebugMessage('request-random'));
-  updateQuote(quoteRetriever.random());
+  updateQuote(quoteProvider.random());
   restartInterval();
 }
 
 function requestByAuthor(author: string) {
   debugLog.add(new DebugMessage('request-by-author'));
-  updateQuote(quoteRetriever.byAuthor(author));
+  updateQuote(quoteProvider.byAuthor(author));
   restartInterval();
 }
 
 function requestByTag(tag: string) {
   debugLog.add(new DebugMessage('request-by-tag'));
-  updateQuote(quoteRetriever.byTag(tag));
+  updateQuote(quoteProvider.byTag(tag));
   restartInterval();
 }
 
 function requestByWork(work: string) {
   debugLog.add(new DebugMessage('request-by-work'));
-  updateQuote(quoteRetriever.byWork(work));
+  updateQuote(quoteProvider.byWork(work));
   restartInterval();
 }
 

@@ -1,9 +1,9 @@
 import { Quote } from './quote';
-import { QuoteRetriever } from './quote-retriever';
+import { QuoteProvider } from './quote-provider';
 import { randomElement } from './random-element';
 import sampleQuotes from './sample-quotes.json';
 
-export class JsonQuoteRetriever implements QuoteRetriever {
+export class JsonQuoteProvider implements QuoteProvider {
   private quotes: Promise<Quote[]>;
 
   constructor() {

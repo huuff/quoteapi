@@ -12,7 +12,7 @@
             </p>
           </blockquote>
           <figcaption class="blockquote-footer">
-            {{ currentQuote.author }}<span v-if="currentQuote.work">, {{ currentQuote.work }}</span>
+            {{ currentQuote.author }}<cite v-if="currentQuote.work">, <span class="work" @click="$emit('requestByWork', currentQuote.work)">{{ currentQuote.work }}</span></cite>
           </figcaption>
         </figure>
       </transition>
@@ -50,7 +50,7 @@ const props = defineProps({
   } ,
 });
 
-const emit = defineEmits([ "requestRandom", "requestByAuthor", "requestByTag" ])
+const emit = defineEmits([ "requestRandom", "requestByAuthor", "requestByTag", "requestByWork" ])
 </script>
 
 <style>
@@ -72,5 +72,13 @@ const emit = defineEmits([ "requestRandom", "requestByAuthor", "requestByTag" ])
 #quoteBoxActions a
 {
   margin: 0 0.2em;
+}
+
+.work:hover {
+ text-decoration: underline; 
+}
+
+.work {
+  cursor: pointer;
 }
 </style>

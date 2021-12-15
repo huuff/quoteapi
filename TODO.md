@@ -1,4 +1,5 @@
 # Task
 * Add at least 10 quotes (hardcoded)
-* Quote by work too?
+* QuoteRetriever -> QuoteProvider
+* Add quotable as a quote provider
 * Test it

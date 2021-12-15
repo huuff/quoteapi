@@ -65,7 +65,7 @@ watch(() => props.log.toArray(), () => {
 function getColor(messageType: DebugMessageType): BootstrapColor {
   if (messageType === 'received-quote')
     return 'primary';
-  if (messageType === 'request-by-author' || messageType === 'request-by-tag' || messageType === 'request-random')
+  if (/request.*/.test(messageType))
     return 'warning';
 }
 </script>

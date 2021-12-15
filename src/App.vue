@@ -5,6 +5,7 @@
       @requestRandom="requestRandom"
       @requestByAuthor="requestByAuthor"
       @requestByTag="requestByTag"
+      @requestByWork="requestByWork"
       class="col col-sm-8 col-lg-6"
     ></the-quote-box>
   </div>
@@ -41,20 +42,26 @@ function updateQuote(promisedQuote: Promise<Quote>) {
 }
 
 function requestRandom() {
-  debugLog.add(new DebugMessage('request-random'))
+  debugLog.add(new DebugMessage('request-random'));
   updateQuote(quoteRetriever.random());
   restartInterval();
 }
 
 function requestByAuthor(author: string) {
-  debugLog.add(new DebugMessage('request-by-author'))
+  debugLog.add(new DebugMessage('request-by-author'));
   updateQuote(quoteRetriever.byAuthor(author));
   restartInterval();
 }
 
 function requestByTag(tag: string) {
-  debugLog.add(new DebugMessage('request-by-tag'))
+  debugLog.add(new DebugMessage('request-by-tag'));
   updateQuote(quoteRetriever.byTag(tag));
+  restartInterval();
+}
+
+function requestByWork(work: string) {
+  debugLog.add(new DebugMessage('request-by-work'));
+  updateQuote(quoteRetriever.byWork(work));
   restartInterval();
 }
 

@@ -27,15 +27,14 @@ export class QuotableQuoteProvider implements QuoteProvider {
   }
 
   async byAuthor(author: string): Promise<Quote> {
-    throw new Error('Method not implemented.');
+    return axios.get<QuotableQuote>(this.URL, { params: { author } }).then(response => fromQuotable(response.data));
   }
 
   async byTag(tag: string): Promise<Quote> {
-    throw new Error('Method not implemented.');
+    return axios.get<QuotableQuote>(this.URL, { params: { tags: tag } }).then(response => fromQuotable(response.data));
   }
 
   async byWork(work: string): Promise<Quote> {
     throw new Error('Method not implemented.');
   }
-
 }

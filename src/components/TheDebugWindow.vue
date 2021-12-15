@@ -55,7 +55,6 @@ watch(show, (newValue: boolean) => {
 });
 
 watch(() => props.log.toArray(), () => {
-  console.log("supposedly scrolling to top")
     setTimeout(() => {
       if (logElement.value)
         logElement.value.scrollTop = logElement.value.scrollHeight
@@ -75,5 +74,6 @@ watch(() => props.log.toArray(), () => {
 
 .pre-wrap {
   white-space: pre-wrap;
+  font-size: 10px;
 }
 </style>

@@ -14,7 +14,7 @@
           class="list-group-item"
         >
         <div class="text-muted">{{ msg.timestamp.toISOString() }}</div>
-        <div class="text-primary">{{ msg.type }} </div> <!-- TODO: Color depending on type -->
+        <div :class="`text-${getColor(msg.type)}`">{{ msg.type }} </div> 
         <p v-text="JSON.stringify(msg.contents, null, 2)" class="pre-wrap"></p>
         </li>
       </ul>
@@ -27,7 +27,8 @@
 import { ref, onMounted, watch, PropType } from 'vue';
 import { Collapse } from 'bootstrap';
 import { RingBuffer } from 'ring-buffer-ts';
-import { DebugMessage } from '@/debug/debug-message';
+import { DebugMessage, DebugMessageType } from '@/debug/debug-message';
+import { BootstrapColor } from '@/bootstrap-color';
 
 const collapsibleElement = ref<null | Element>(null);
 const logElement = ref<null | Element>(null);
@@ -60,6 +61,13 @@ watch(() => props.log.toArray(), () => {
         logElement.value.scrollTop = logElement.value.scrollHeight
     }, 10);
 });
+
+function getColor(messageType: DebugMessageType): BootstrapColor {
+  if (messageType === 'received-quote')
+    return 'primary';
+  if (messageType === 'request-by-author' || messageType === 'request-by-tag' || messageType === 'request-random')
+    return 'warning';
+}
 </script>
 
 <style scoped>

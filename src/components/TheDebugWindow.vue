@@ -65,7 +65,7 @@ watch(() => props.log.toArray(), () => {
 function getColor(messageType: DebugMessageType): BootstrapColor {
   if (messageType === 'received')
     return 'primary';
-  if (/requested-.*/.test(messageType))
+  if (messageType === 'requested')
     return 'warning';
   else
     throw new Error(`Debug message type ${messageType} not defined`);

@@ -36,7 +36,7 @@ const quoteProvider: QuoteProvider = new QuotableQuoteProvider();
 const currentQuote = ref<Quote | null>(null);
 let interval: number | undefined = undefined;
 const debugLog = reactive(new RingBuffer<DebugMessage>(15));
-const expertMode = ref(false);
+const expertMode = ref<boolean | null>(null);
 
 function restartInterval() {
   clearInterval(interval);

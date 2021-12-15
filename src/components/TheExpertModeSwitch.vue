@@ -8,12 +8,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 
 const props = defineProps({
   modelValue: {
     type: Boolean,
-    required: true
+    required: false,
+    default: false,
   },
 });
 
@@ -21,6 +22,15 @@ const emit = defineEmits([ "update:modelValue" ]);
 
 const expertMode = computed({
   get: () => props.modelValue,
-  set: (value: boolean) => emit("update:modelValue", value),
+  set: (newValue: boolean) => {
+    emit("update:modelValue", newValue);
+    localStorage.setItem("expertMode", `${newValue}`);
+  },
 });
+
+onMounted(() => {
+  if (localStorage.getItem("expertMode") === 'true')
+    expertMode.value = true;
+});
+
 </script>

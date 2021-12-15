@@ -50,13 +50,13 @@ function updateQuote(promisedQuote: Promise<Quote>) {
 }
 
 function requestRandom() {
-  debugLog.add(new DebugMessage('requested'));
+  debugLog.add(new DebugMessage('requested-random'));
   updateQuote(quoteProvider.random());
   restartInterval();
 }
 
 function requestQuery(requestType: RequestType, query: string) {
-  debugLog.add(new DebugMessage('requested'));
+  debugLog.add(new DebugMessage(`requested-${requestType}`));
   if (requestType === 'author')
     updateQuote(quoteProvider.byAuthor(query));
   if (requestType === 'tag')

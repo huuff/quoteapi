@@ -20,12 +20,14 @@ import { ref, onUnmounted, reactive } from 'vue';
 import TheQuoteBox from '@/components/TheQuoteBox.vue';
 import TheDebugWindow from '@/components/TheDebugWindow.vue';
 import { Quote } from '@/quotes/quote';
-import { JsonQuoteProvider } from '@/quotes/json-quote-provider';
+/*import { JsonQuoteProvider } from '@/quotes/json-quote-provider';*/
+import { QuotableQuoteProvider } from '@/quotes/quotable-quote-provider';
 import { QuoteProvider } from '@/quotes/quote-provider';
 import { RingBuffer } from 'ring-buffer-ts';
 import { DebugMessage } from '@/debug/debug-message';
 
-const quoteProvider: QuoteProvider = new JsonQuoteProvider();
+/*const quoteProvider: QuoteProvider = new JsonQuoteProvider();*/
+const quoteProvider: QuoteProvider = new QuotableQuoteProvider();
 const currentQuote = ref<Quote | null>(null);
 let interval: number | undefined = undefined;
 const debugLog = reactive(new RingBuffer<DebugMessage>(15));

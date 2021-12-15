@@ -7,9 +7,18 @@
     </button>
   </div>
   <div class="collapse" ref="collapsibleElement">
-    <div class="card-body">
-      <ul>
-        <li v-for="msg in log.toArray()" :key="msg.timestamp">{{ JSON.stringify(msg) }}</li>
+    <div class="card-body" ref="logElement">
+      <ul class="list-group list-group-flush">
+        <li v-for="msg in log.toArray()" 
+          :key="msg.timestamp"
+          class="list-group-item"
+        >
+        <div class="text-muted">{{ msg.timestamp.toISOString() }}</div>
+        <div class="text-primary">{{ msg.type }} </div> <!-- TODO: Color depending on type -->
+        <p>
+          {{ JSON.stringify(msg.contents, null, 2) }}
+        </p>
+        </li>
       </ul>
     </div>
   </div>
@@ -23,8 +32,9 @@ import { RingBuffer } from 'ring-buffer-ts';
 import { DebugMessage } from '@/debug/debug-message';
 
 const collapsibleElement = ref<null | Element>(null);
-let collapsible: null | Collapse;
+const logElement = ref<null | Element>(null);
 const show = ref(false);
+let collapsible: null | Collapse;
 
 const props = defineProps({
   log: {
@@ -44,6 +54,14 @@ watch(show, (newValue: boolean) => {
     collapsible?.show();
   else
     collapsible?.hide();
+});
+
+watch(() => props.log.toArray(), () => {
+  console.log("supposedly scrolling to top")
+    setTimeout(() => {
+      if (logElement.value)
+        logElement.value.scrollTop = logElement.value.scrollHeight
+    }, 10);
 });
 </script>
 

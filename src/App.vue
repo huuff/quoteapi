@@ -1,4 +1,8 @@
 <template>
+  <the-expert-mode-switch 
+    class="fixed-top d-flex flex-row justify-content-end me-4"
+    v-model="expertMode"
+  ></the-expert-mode-switch>
   <div class="vh-100 row justify-content-center align-items-center">
     <the-quote-box 
       :currentQuote="currentQuote"
@@ -9,7 +13,7 @@
       class="col col-sm-8 col-lg-6"
     ></the-quote-box>
   </div>
-  <the-debug-window 
+  <the-debug-window v-if="expertMode"
     class="fixed-bottom ms-4"
     :log="debugLog"
   ></the-debug-window>
@@ -19,6 +23,7 @@
 import { ref, onUnmounted, reactive } from 'vue';
 import TheQuoteBox from '@/components/TheQuoteBox.vue';
 import TheDebugWindow from '@/components/TheDebugWindow.vue';
+import TheExpertModeSwitch from '@/components/TheExpertModeSwitch.vue';
 import { Quote } from '@/quotes/quote';
 /*import { JsonQuoteProvider } from '@/quotes/json-quote-provider';*/
 import { QuotableQuoteProvider } from '@/quotes/quotable-quote-provider';
@@ -31,6 +36,7 @@ const quoteProvider: QuoteProvider = new QuotableQuoteProvider();
 const currentQuote = ref<Quote | null>(null);
 let interval: number | undefined = undefined;
 const debugLog = reactive(new RingBuffer<DebugMessage>(15));
+const expertMode = ref(false);
 
 function restartInterval() {
   clearInterval(interval);

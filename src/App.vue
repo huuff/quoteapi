@@ -2,12 +2,10 @@
   <div class="fixed-top d-flex flex-row justify-content-end me-4">
     <div class="d-flex flex-column">
       <the-expert-mode-switch v-model="expertMode"></the-expert-mode-switch>
-      <div v-if="expertMode" class="mt-2 d-flex flex-row align-items-baseline">
-        <label for="providerSelector" class="text-muted me-2">Provider: </label>
-        <select id="providerSelector" v-model="currentProviderName" class="form-select">
-          <option v-for="provider in ProviderName" :key="provider">{{provider}}</option>
-        </select>
-      </div>
+      <the-provider-selector 
+        v-show="expertMode"
+        @setProvider="(newProvider) => provider = newProvider"
+      ></the-provider-selector>
     </div>
   </div>
   <div class="vh-100 row justify-content-center align-items-center">
@@ -25,10 +23,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onUnmounted, reactive, computed, ComputedRef } from 'vue';
+import { ref, onUnmounted, reactive, } from 'vue';
 import TheQuoteBox from '@/components/TheQuoteBox.vue';
 import TheDebugWindow from '@/components/TheDebugWindow.vue';
 import TheExpertModeSwitch from '@/components/TheExpertModeSwitch.vue';
+import TheProviderSelector from '@/components/TheProviderSelector.vue';
 import { Quote } from '@/quotes/quote';
 import { RequestType } from '@/request-type';
 import { QuoteProvider } from '@/quotes/quote-provider';
@@ -40,13 +39,11 @@ const currentQuote = ref<Quote | null>(null);
 let interval: number | undefined = undefined;
 const debugLog = reactive(new RingBuffer<DebugMessage>(15));
 const expertMode = ref<boolean | null>(null);
-
-let currentProviderName = ref<ProviderName>('quotable');
-const currentProvider: ComputedRef<QuoteProvider> = computed(() => getProvider(currentProviderName.value));
+const provider = ref<QuoteProvider>(getProvider(ProviderName.quotable));
 
 function restartInterval() {
   clearInterval(interval);
-  interval = setInterval(() => updateQuote(currentProvider.value.random()), 7000);
+  interval = setInterval(() => updateQuote(provider.value.random()), 7000);
 }
 
 function updateQuote(promisedQuote: Promise<Quote>) {
@@ -58,18 +55,18 @@ function updateQuote(promisedQuote: Promise<Quote>) {
 
 function requestRandom() {
   debugLog.add(new DebugMessage('requested'));
-  updateQuote(currentProvider.value.random());
+  updateQuote(provider.value.random());
   restartInterval();
 }
 
 function requestQuery(requestType: RequestType, query: string) {
   debugLog.add(new DebugMessage('requested', { [requestType]: query }));
   if (requestType === 'author')
-    updateQuote(currentProvider.value.byAuthor(query));
+    updateQuote(provider.value.byAuthor(query));
   if (requestType === 'tag')
-    updateQuote(currentProvider.value.byTag(query));
+    updateQuote(provider.value.byTag(query));
   if (requestType === 'work')
-    updateQuote(currentProvider.value.byWork(query));
+    updateQuote(provider.value.byWork(query));
 
   restartInterval();
 }

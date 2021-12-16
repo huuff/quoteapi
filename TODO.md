@@ -5,4 +5,3 @@
 * Use sentiment analysis to set a background according to the emotion of the quote
 * Quote refresh time depending on lenght
 * Test it
-* Make provider selector a component

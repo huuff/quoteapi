@@ -4,7 +4,7 @@
       <the-expert-mode-switch v-model="expertMode"></the-expert-mode-switch>
       <the-provider-selector 
         v-show="expertMode"
-        @setProvider="(newProvider) => provider = newProvider"
+        @setProvider="setProvider"
       ></the-provider-selector>
     </div>
   </div>
@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onUnmounted, reactive, } from 'vue';
+import { ref, onUnmounted, reactive, onMounted } from 'vue';
 import TheQuoteBox from '@/components/TheQuoteBox.vue';
 import TheDebugWindow from '@/components/TheDebugWindow.vue';
 import TheExpertModeSwitch from '@/components/TheExpertModeSwitch.vue';
@@ -71,9 +71,12 @@ function requestQuery(requestType: RequestType, query: string) {
   restartInterval();
 }
 
-onUnmounted(() => clearInterval(interval));
+function setProvider(newProvider: QuoteProvider): void {
+  provider.value = newProvider;
+  requestRandom();
+}
 
-requestRandom();
+onUnmounted(() => clearInterval(interval));
 </script>
 
 <style>

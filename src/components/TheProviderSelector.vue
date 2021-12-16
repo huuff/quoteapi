@@ -8,8 +8,7 @@
 </template>
 
 <script setup lang="ts">
-// TODO: Save and get provider to and from localStorage
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { getProvider, ProviderName } from '@/quotes/get-provider';
 import { QuoteProvider } from '@/quotes/quote-provider';
 
@@ -20,7 +19,22 @@ const emit = defineEmits<{
 }>();
 
 function setProvider() {
-  console.log(`Emitting to set provider to: ${selectedProviderName.value}`);
+  localStorage.setItem('provider', selectedProviderName.value.toString() )
   emit('setProvider', getProvider(selectedProviderName.value));
 }
+
+function getFromLocalStorage(): ProviderName {
+  const storedName = localStorage.getItem('provider');
+
+  if (storedName) {
+    return ProviderName[storedName as keyof typeof ProviderName]
+  } else {
+    return ProviderName.quotable; // Default
+  }
+}
+
+onMounted(() => {
+  selectedProviderName.value = getFromLocalStorage();
+  setProvider();
+})
 </script>

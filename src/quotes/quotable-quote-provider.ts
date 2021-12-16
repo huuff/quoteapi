@@ -13,6 +13,7 @@ interface QuotableQuote {
 
 function fromQuotable(quote: QuotableQuote): Quote {
   return {
+    id: quote._id,
     contents: quote.content,
     author: quote.author,
     tags: quote.tags,
@@ -34,7 +35,7 @@ export class QuotableQuoteProvider implements QuoteProvider {
     return axios.get<QuotableQuote>(this.URL, { params: { tags: tag } }).then(response => fromQuotable(response.data));
   }
 
-  async byWork(work: string): Promise<Quote> {
+  async byWork(_: string): Promise<Quote> {
     throw new Error('Method not implemented.');
   }
 }

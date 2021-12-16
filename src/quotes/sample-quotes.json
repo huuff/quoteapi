@@ -1,5 +1,6 @@
 [
   { 
+    "id": "cdc2d799-f1ef-4476-9de7-0acfb59d43e2",
     "author": "Miguel de Cervantes", 
     "contents": "There is madness in too much sanity, and the greatest madness of all is to see things as they are instead of as they should be",
     "tags": [],
@@ -7,6 +8,7 @@
   },
 
   { 
+    "id": "9308bd01-660b-4bd8-818e-2d5fd76b46af",
     "author": "Friedrich Nietzsche", 
     "contents": "Too bad! Same old story! Once you've finished building your house you notice you've accidentally learned something that you really should have known—before you started.",
     "tags": [],
@@ -14,6 +16,7 @@
   },
 
   {
+    "id": "0347af32-4e8a-46f9-96d5-2a5c20a3bd51",
     "author": "Friedrich Nietzsche",
     "contents": "The Great Man... is colder, harder, less hesitating, and without fear of 'opinion'; he lacks the virtues that accompany respect and 'respectability,' and altogether everything that is the 'virtue of the herd.' If he cannot lead, he goes alone... He knows he is incommunicable: he finds it tasteless to be familiar... When not speaking to himself, he wears a mask. There is a solitude within him that is inaccessible to praise or blame.",
     "tags": [],
@@ -21,6 +24,7 @@
   },
 
   { 
+    "id": "699df7b4-4db9-4ddf-97f0-207f68f4e26b",
     "author": "Mary Shelley", 
     "contents": "I have love in me the likes of which you can scarcely imagine and rage the likes of which you would not believe. If I cannot satisfy the one, I will indulge the other.",
     "tags": [ "gothic" ],
@@ -28,6 +32,7 @@
   },
 
   {
+    "id": "1ebf775c-66d1-45b2-9b69-8b47a3510d0b",
     "author": "Mary Shelley",
     "contents": "If I cannot inspire love, I will cause fear!",
     "tags": [ "gothic" ],
@@ -35,6 +40,7 @@
   },
 
   {
+    "id": "ce9dcedb-9501-461e-b0bc-c30ae41b97ad",
     "author": "Richard Feynman",
     "contents": "Study hard what interests you the most in the most undisciplined, irreverent, and original manner possible.",
     "tags": [ "inspirational" ]

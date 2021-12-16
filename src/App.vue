@@ -3,7 +3,7 @@
     <div class="d-flex flex-column">
       <the-expert-mode-switch v-model="expertMode"></the-expert-mode-switch>
       <the-provider-selector 
-        v-show="expertMode"
+        :style="{ opacity: expertMode ? '100%' : '0%'}"
         @setProvider="setProvider"
       ></the-provider-selector>
     </div>
@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onUnmounted, reactive, onMounted } from 'vue';
+import { ref, onUnmounted, reactive, } from 'vue';
 import TheQuoteBox from '@/components/TheQuoteBox.vue';
 import TheDebugWindow from '@/components/TheDebugWindow.vue';
 import TheExpertModeSwitch from '@/components/TheExpertModeSwitch.vue';

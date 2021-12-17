@@ -28,7 +28,7 @@
           :icon="[ store.isFavorite(currentQuote.id) ? 'fas' : 'far', 'heart']" 
           class="fa-lg me-2 text-danger" 
           id="like"
-          @click="store.toggle(currentQuote.id)"
+          @click="store.toggleFavorite(currentQuote.id)"
           >
         </font-awesome-icon>
         <transition name="fade" mode="out-in">

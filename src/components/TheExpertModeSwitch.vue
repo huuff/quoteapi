@@ -1,6 +1,6 @@
 <template>
   <div class="form-check form-switch switch">
-    <input class="form-check-input me-2" type="checkbox" id="expertModeSwitch" v-model="expertMode">
+    <input class="form-check-input me-2" type="checkbox" id="expertModeSwitch" v-model="switchState">
     <label class="form-check-label" for="expertModeSwitch">
       Expert Mode
     </label>
@@ -8,31 +8,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import { computed } from 'vue';
+import { useStore } from '@/store';
+import { storeToRefs } from 'pinia';
 
-const props = withDefaults(defineProps<{
-  modelValue?: boolean
-}>(), {
-  modelValue: false
+const store = useStore();
+const { expertMode } = storeToRefs(store);
+
+const switchState = computed({
+  get: () => expertMode.value,
+  set: (_) => store.toggleExpertMode()
 });
-
-const emit = defineEmits<{
-  (event: 'update:modelValue', expertMode: boolean): void
-}>();
-
-const expertMode = computed({
-  get: () => props.modelValue,
-  set: (newValue: boolean) => {
-    emit("update:modelValue", newValue);
-    localStorage.setItem("expertMode", `${newValue}`);
-  },
-});
-
-onMounted(() => {
-  if (localStorage.getItem("expertMode") === 'true')
-    expertMode.value = true;
-});
-
 </script>
 
 <style scoped>

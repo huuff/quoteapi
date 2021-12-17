@@ -1,7 +1,7 @@
 <template>
   <div class="fixed-top d-flex flex-row justify-content-end me-4">
     <div class="d-flex flex-column">
-      <the-expert-mode-switch v-model="expertMode"></the-expert-mode-switch>
+      <the-expert-mode-switch></the-expert-mode-switch>
       <the-provider-selector 
         :style="{ opacity: expertMode ? '100%' : '0%'}"
         @setProvider="setProvider"
@@ -34,11 +34,13 @@ import { QuoteProvider } from '@/quotes/quote-provider';
 import { RingBuffer } from 'ring-buffer-ts';
 import { DebugMessage } from '@/debug/debug-message';
 import { getProvider, ProviderName } from '@/quotes/get-provider';
+import { useStore } from '@/store';
+import { storeToRefs } from 'pinia';
 
 const currentQuote = ref<Quote | null>(null);
 let interval: number | undefined = undefined;
 const debugLog = reactive(new RingBuffer<DebugMessage>(15));
-const expertMode = ref<boolean | null>(null);
+const { expertMode } = storeToRefs(useStore());
 const provider = ref<QuoteProvider>(getProvider(ProviderName.quotable));
 
 function restartInterval() {

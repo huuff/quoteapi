@@ -24,7 +24,13 @@
       class="card-footer d-flex flex-row justify-content-between align-items-baseline"
       >
       <div v-if="currentQuote">
-        <font-awesome-icon :icon="['far', 'heart']" class="fa-lg me-2 text-danger" id="like"></font-awesome-icon>
+        <font-awesome-icon 
+          :icon="[ store.isFavorite(currentQuote.id) ? 'fas' : 'far', 'heart']" 
+          class="fa-lg me-2 text-danger" 
+          id="like"
+          @click="store.toggle(currentQuote.id)"
+          >
+        </font-awesome-icon>
         <transition name="fade" mode="out-in">
           <span :key="currentQuote.tags">
             <a v-for="tag in currentQuote.tags" :key="tag" href="#" class="card-link" @click="$emit('requestQuery', 'tag', tag)">{{tag}}</a>
@@ -43,6 +49,10 @@
 <script setup lang="ts">
 import { Quote } from '@/quotes/quote';
 import { RequestType } from '@/request-type';
+import { useStore } from '@/store';
+import { storeToRefs } from 'pinia';
+
+const store = useStore();
 
 const props = defineProps<{
   currentQuote?: Quote
@@ -52,6 +62,7 @@ const emit = defineEmits<{
   (event: 'requestRandom'): void;
   (event: 'requestQuery', type: RequestType, author: string): void;
 }>();
+
 </script>
 
 <style>

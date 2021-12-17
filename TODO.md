@@ -4,3 +4,4 @@
 * Use sentiment analysis to set a background according to the emotion of the quote
 * Quote refresh time depending on lenght
 * Test it
+* Convert my `localStorage` stuff to `pinia`

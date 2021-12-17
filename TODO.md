@@ -5,3 +5,4 @@
 * Quote refresh time depending on lenght
 * Test it
 * Convert my `localStorage` stuff to `pinia`
+* Should be `ProviderType` instead of `ProviderName`?

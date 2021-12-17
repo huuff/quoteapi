@@ -1,40 +1,24 @@
 <template>
   <div class="mt-2 d-flex flex-row align-items-baseline">
     <label for="providerSelector" class="text-muted me-2">Provider: </label>
-    <select id="providerSelector" @change="setProvider" v-model="selectedProviderName" class="form-select">
+    <select id="providerSelector" class="form-select" v-model="providerName">
       <option v-for="provider in ProviderName" :key="provider">{{provider}}</option>
     </select>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { getProvider, ProviderName } from '@/quotes/get-provider';
-import { QuoteProvider } from '@/quotes/quote-provider';
+import { onMounted, computed } from 'vue';
+import { ProviderName } from '@/quotes/get-provider';
+import { useStore } from '@/store';
+import { storeToRefs } from 'pinia';
 
-const selectedProviderName = ref<ProviderName>(ProviderName.quotable);
+const store = useStore();
+const { provider } = storeToRefs(store);
 
-const emit = defineEmits<{
-  (event: 'setProvider', provider: QuoteProvider): void;
-}>();
+const providerName = computed({
+  get: () => provider.value,
+  set: (providerName: ProviderName) => store.setProvider(providerName),
+});
 
-function setProvider() {
-  localStorage.setItem('provider', selectedProviderName.value.toString() )
-  emit('setProvider', getProvider(selectedProviderName.value));
-}
-
-function getFromLocalStorage(): ProviderName {
-  const storedName = localStorage.getItem('provider');
-
-  if (storedName) {
-    return ProviderName[storedName as keyof typeof ProviderName]
-  } else {
-    return ProviderName.quotable; // Default
-  }
-}
-
-onMounted(() => {
-  selectedProviderName.value = getFromLocalStorage();
-  setProvider();
-})
 </script>

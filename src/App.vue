@@ -4,7 +4,7 @@
       <the-expert-mode-switch></the-expert-mode-switch>
       <the-provider-selector 
         :style="{ opacity: expertMode ? '100%' : '0%'}"
-        @setProvider="setProvider"
+        @changeProvider='requestRandom()'
       ></the-provider-selector>
     </div>
   </div>
@@ -23,25 +23,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onUnmounted, reactive, } from 'vue';
+import { ref, onUnmounted, reactive, onMounted } from 'vue';
 import TheQuoteBox from '@/components/TheQuoteBox.vue';
 import TheDebugWindow from '@/components/TheDebugWindow.vue';
 import TheExpertModeSwitch from '@/components/TheExpertModeSwitch.vue';
 import TheProviderSelector from '@/components/TheProviderSelector.vue';
 import { Quote } from '@/quotes/quote';
 import { RequestType } from '@/request-type';
-import { QuoteProvider } from '@/quotes/quote-provider';
 import { RingBuffer } from 'ring-buffer-ts';
 import { DebugMessage } from '@/debug/debug-message';
-import { getProvider, ProviderName } from '@/quotes/get-provider';
 import { useStore } from '@/store';
 import { storeToRefs } from 'pinia';
 
 const currentQuote = ref<Quote | null>(null);
-let interval: number | undefined = undefined;
 const debugLog = reactive(new RingBuffer<DebugMessage>(15));
-const { expertMode } = storeToRefs(useStore());
-const provider = ref<QuoteProvider>(getProvider(ProviderName.quotable));
+const { expertMode, provider } = storeToRefs(useStore());
+let interval: number | undefined = undefined;
 
 function restartInterval() {
   clearInterval(interval);
@@ -73,10 +70,9 @@ function requestQuery(requestType: RequestType, query: string) {
   restartInterval();
 }
 
-function setProvider(newProvider: QuoteProvider): void {
-  provider.value = newProvider;
+onMounted(() => {
   requestRandom();
-}
+});
 
 onUnmounted(() => clearInterval(interval));
 </script>

@@ -3,6 +3,6 @@
 * Show a countdown for next refresh in the debug window
 * Use sentiment analysis to set a background according to the emotion of the quote
 * Quote refresh time depending on lenght
+* Option to freeze quote
 * Test it
-* Convert my `localStorage` stuff to `pinia`
 * Should be `ProviderType` instead of `ProviderName`?

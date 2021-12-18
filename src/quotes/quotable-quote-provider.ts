@@ -1,5 +1,6 @@
 import { Quote } from './quote';
 import { QuoteProvider } from './quote-provider';
+import { ProviderName } from '@/quotes/get-provider';
 import axios from 'axios';
 
 interface QuotableQuote {
@@ -21,6 +22,7 @@ function fromQuotable(quote: QuotableQuote): Quote {
 }
 
 export class QuotableQuoteProvider implements QuoteProvider {
+  public readonly name: ProviderName = ProviderName.quotable;
   private readonly URL = 'https://api.quotable.io/random';
 
   async random(): Promise<Quote> {

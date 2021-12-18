@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, computed } from 'vue';
+import { computed } from 'vue';
 import { ProviderName } from '@/quotes/get-provider';
 import { useStore } from '@/store';
 import { storeToRefs } from 'pinia';
@@ -16,9 +16,16 @@ import { storeToRefs } from 'pinia';
 const store = useStore();
 const { provider } = storeToRefs(store);
 
+const emit = defineEmits<{
+  (event: 'changeProvider'): void;
+}>();
+
 const providerName = computed({
-  get: () => provider.value,
-  set: (providerName: ProviderName) => store.setProvider(providerName),
+  get: () => provider.value.name,
+  set: (providerName: ProviderName) => {
+    store.setProvider(providerName);
+    emit('changeProvider');
+  },
 });
 
 </script>

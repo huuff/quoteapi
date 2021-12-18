@@ -2,8 +2,11 @@ import { Quote } from './quote';
 import { QuoteProvider } from './quote-provider';
 import { randomElement } from './random-element';
 import sampleQuotes from './sample-quotes.json';
+import { ProviderName } from '@/quotes/get-provider';
 
 export class JsonQuoteProvider implements QuoteProvider {
+  public readonly name: ProviderName = ProviderName.embedded;
+
   private quotes: Promise<Quote[]>;
 
   constructor() {

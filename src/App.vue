@@ -38,24 +38,26 @@ import { storeToRefs } from 'pinia';
 const currentQuote = ref<Quote | null>(null);
 const debugLog = reactive(new RingBuffer<DebugMessage>(15));
 const { expertMode, provider } = storeToRefs(useStore());
-let interval: number | undefined = undefined;
+/*let interval: number | undefined = undefined;*/
+let timeout: number | undefined = undefined;
 
-function restartInterval() {
-  clearInterval(interval);
-  interval = setInterval(() => updateQuote(provider.value.random()), 7000);
+function resetTimeout(quoteLength: number) {
+  if (timeout)
+    clearTimeout(timeout);
+  timeout = setTimeout(() => updateQuote(provider.value.random()), 7000 + (quoteLength * 10));
 }
 
 function updateQuote(promisedQuote: Promise<Quote>) {
   promisedQuote.then(newQuote => {
     debugLog.add(new DebugMessage('received', newQuote));
     currentQuote.value = newQuote;
+    resetTimeout(newQuote.contents.length);
   });
 }
 
 function requestRandom() {
   debugLog.add(new DebugMessage('requested'));
   updateQuote(provider.value.random());
-  restartInterval();
 }
 
 function requestQuery(requestType: RequestType, query: string) {
@@ -66,15 +68,13 @@ function requestQuery(requestType: RequestType, query: string) {
     updateQuote(provider.value.byTag(query));
   if (requestType === 'work')
     updateQuote(provider.value.byWork(query));
-
-  restartInterval();
 }
 
 onMounted(() => {
   requestRandom();
 });
 
-onUnmounted(() => clearInterval(interval));
+onUnmounted(() => clearTimeout(timeout));
 </script>
 
 <style>

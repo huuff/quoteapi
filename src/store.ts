@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
-import { QuoteProvider } from '@/quotes/quote-provider';
-import { getProvider, ProviderName } from '@/quotes/get-provider'
+import { QuoteProvider, ProviderType, getProvider } from '@/quotes/quote-provider';
 
 interface State {
   favoriteQuotes: Set<string>;
@@ -12,9 +11,9 @@ function loadProviderFromLocalStorage(): QuoteProvider {
   const storedName = localStorage.getItem('provider');
 
   if (storedName) {
-    return getProvider(ProviderName[storedName as keyof typeof ProviderName])
+    return getProvider(ProviderType[storedName as keyof typeof ProviderType])
   } else {
-    return getProvider(ProviderName.quotable); // Default
+    return getProvider(ProviderType.quotable); // Default
   }
 }
 
@@ -50,10 +49,10 @@ export const useStore = defineStore('main', {
       localStorage.setItem('expertMode', JSON.stringify(this.expertMode));
     },
 
-    setProvider(providerName: ProviderName) {
-      this.provider = getProvider(providerName);
+    setProvider(providerType: ProviderType) {
+      this.provider = getProvider(providerType);
 
-      localStorage.setItem('provider', providerName.toString());
+      localStorage.setItem('provider', providerType.toString());
     },
   },
 });

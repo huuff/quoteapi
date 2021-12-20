@@ -39,7 +39,7 @@ import { useStore } from '@/store';
 import { storeToRefs } from 'pinia';
 import { randomElement } from '@/random-element';
 
-const currentQuote = ref<Quote | null>(null);
+const currentQuote = ref<Quote | undefined>(undefined);
 const debugLog = reactive(new RingBuffer<DebugMessage>(15));
 const { expertMode, provider, favoriteQuotes } = storeToRefs(useStore());
 const autoplay = ref(true);
@@ -55,13 +55,14 @@ function updateQuote(promisedQuote: Promise<Quote>) {
   promisedQuote.then(newQuote => {
     debugLog.add(new DebugMessage('received', newQuote));
     currentQuote.value = newQuote;
-    resetTimeout(newQuote.contents.length);
+    if (autoplay.value) {
+      resetTimeout(newQuote.contents.length);
+    }
   });
 }
 
 function requestRandom() {
   debugLog.add(new DebugMessage('requested'));
-  autoplay.value = true; // TODO: Why should it? Just keep paused until unpaused manually
   updateQuote(provider.value.random());
 }
 

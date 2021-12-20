@@ -11,8 +11,10 @@
   <div class="vh-100 row justify-content-center align-items-center">
     <the-quote-box 
       :currentQuote="currentQuote"
+      :autoplay="autoplay"
       @requestRandom="requestRandom"
       @requestQuery="requestQuery"
+      @toggleAutoplay="toggleAutoplay"
       class="col col-sm-8 col-lg-6"
     ></the-quote-box>
   </div>
@@ -38,7 +40,7 @@ import { storeToRefs } from 'pinia';
 const currentQuote = ref<Quote | null>(null);
 const debugLog = reactive(new RingBuffer<DebugMessage>(15));
 const { expertMode, provider } = storeToRefs(useStore());
-/*let interval: number | undefined = undefined;*/
+const autoplay = ref(true);
 let timeout: number | undefined = undefined;
 
 function resetTimeout(quoteLength: number) {
@@ -57,6 +59,7 @@ function updateQuote(promisedQuote: Promise<Quote>) {
 
 function requestRandom() {
   debugLog.add(new DebugMessage('requested'));
+  autoplay.value = true;
   updateQuote(provider.value.random());
 }
 
@@ -68,6 +71,18 @@ function requestQuery(requestType: RequestType, query: string) {
     updateQuote(provider.value.byTag(query));
   if (requestType === 'work')
     updateQuote(provider.value.byWork(query));
+}
+
+function toggleAutoplay() {
+  const nextAutoplayState = !autoplay.value;
+
+  if (nextAutoplayState) {
+    requestRandom();
+  } else {
+    clearTimeout(timeout);
+  }
+
+  autoplay.value = nextAutoplayState;
 }
 
 onMounted(() => {

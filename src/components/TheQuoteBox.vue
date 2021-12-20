@@ -39,6 +39,13 @@
       </div>
 
       <div>
+        <button 
+          class="btn btn-outline mx-2" 
+          :class="autoplay ? 'btn-primary' : 'btn-success'"
+          @click="$emit('toggleAutoplay')"
+        >
+          <font-awesome-icon :icon="autoplay ? 'pause' : 'play'"></font-awesome-icon>
+        </button>
         <button class="btn btn-info" @click="$emit('requestQuery', 'author', currentQuote.author)">Same author</button>
         <button class="btn btn-secondary" @click="$emit('requestRandom')">Random</button>
       </div>
@@ -50,17 +57,18 @@
 import { Quote } from '@/quotes/quote';
 import { RequestType } from '@/request-type';
 import { useStore } from '@/store';
-import { storeToRefs } from 'pinia';
 
 const store = useStore();
 
 const props = defineProps<{
-  currentQuote?: Quote
+  currentQuote?: Quote;
+  autoplay: boolean;
 }>();
 
 const emit = defineEmits<{
   (event: 'requestRandom'): void;
   (event: 'requestQuery', type: RequestType, author: string): void;
+  (event: 'toggleAutoplay'): void;
 }>();
 
 </script>

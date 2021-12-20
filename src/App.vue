@@ -22,6 +22,7 @@
   <the-debug-window v-if="expertMode"
     class="fixed-bottom ms-4"
     :log="debugLog"
+    :nextRefresh="autoplay.nextRefresh"
   ></the-debug-window>
 </template>
 

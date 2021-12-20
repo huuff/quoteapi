@@ -3,7 +3,9 @@ import { useStore } from '@/store';
 
 export class Autoplay {
   private readonly store = useStore();
+
   public enabled: boolean;
+  public nextRefresh: number = new Date().getTime();
   private timeoutId: number | undefined;
   
   constructor(
@@ -49,6 +51,8 @@ export class Autoplay {
 
   // So quotes stay longer the longer they are, and time is enough to read them
   private calculateTimeoutDuration(quoteLength: number) {
-    return 7000 + (quoteLength * 10);
+    const duration = 7000 + (quoteLength * 10);
+    this.nextRefresh = new Date().getTime() + duration;
+    return duration;
   }
 }

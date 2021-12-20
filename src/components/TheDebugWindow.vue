@@ -10,7 +10,7 @@
     <div class="card-body" ref="logElement">
       <ul class="list-group list-group-flush">
         <li v-for="msg in log.toArray()" 
-          :key="msg.timestamp"
+          :key="msg.timestamp.toISOString()"
           class="list-group-item"
         >
         <div class="text-muted">{{ msg.timestamp.toISOString() }}</div>
@@ -19,15 +19,16 @@
         </li>
       </ul>
     </div>
-    <footer class="card-footer">
+    <footer class="card-footer d-flex flex-row justify-content-between align-items-baseline">
       <button class="btn btn-danger btn btn-sm" @click="clearStorage">Clear storage</button>
+      <span>Next quote in: {{ timeToRefresh }}</span>
     </footer>
   </div>
 </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, onUnmounted } from 'vue';
 import { Collapse } from 'bootstrap';
 import { RingBuffer } from 'ring-buffer-ts';
 import { DebugMessage, DebugMessageType } from '@/debug/debug-message';
@@ -40,7 +41,11 @@ let collapsible: null | Collapse;
 
 const props = defineProps<{
   log: RingBuffer<DebugMessage>;
+  nextRefresh: number;
 }>();
+
+const timeToRefresh = ref(0);
+const updateTimeToRefresh = setInterval(() => timeToRefresh.value = Math.round((props.nextRefresh - new Date().getTime()) / 1000), 250);
 
 onMounted(() => {
   if (collapsibleElement.value) {
@@ -74,6 +79,8 @@ function getColor(messageType: DebugMessageType): BootstrapColor {
 function clearStorage() {
   localStorage.clear();
 }
+
+onUnmounted(() => clearInterval(updateTimeToRefresh));
 </script>
 
 <style scoped>

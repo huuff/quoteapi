@@ -22,18 +22,22 @@ function fromQuotable(quote: QuotableQuote): Quote {
 
 export class QuotableQuoteProvider implements QuoteProvider {
   public readonly type: ProviderType = ProviderType.quotable;
-  private readonly URL = 'https://api.quotable.io/random';
+  private readonly RANDOM_URL = 'https://api.quotable.io/random';
 
   async random(): Promise<Quote> {
-    return axios.get<QuotableQuote>(this.URL).then(response => fromQuotable(response.data));
+    return axios.get<QuotableQuote>(this.RANDOM_URL).then(response => fromQuotable(response.data));
+  }
+
+  async byId(id: string): Promise<Quote> {
+    return axios.get<QuotableQuote>(`https://api.quotable.io/quotes/${id}`).then(response => fromQuotable(response.data));
   }
 
   async byAuthor(author: string): Promise<Quote> {
-    return axios.get<QuotableQuote>(this.URL, { params: { author } }).then(response => fromQuotable(response.data));
+    return axios.get<QuotableQuote>(this.RANDOM_URL, { params: { author } }).then(response => fromQuotable(response.data));
   }
 
   async byTag(tag: string): Promise<Quote> {
-    return axios.get<QuotableQuote>(this.URL, { params: { tags: tag } }).then(response => fromQuotable(response.data));
+    return axios.get<QuotableQuote>(this.RANDOM_URL, { params: { tags: tag } }).then(response => fromQuotable(response.data));
   }
 
   async byWork(_: string): Promise<Quote> {

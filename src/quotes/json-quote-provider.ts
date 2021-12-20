@@ -12,6 +12,11 @@ export class JsonQuoteProvider implements QuoteProvider {
     this.quotes = Promise.resolve(sampleQuotes);
   }
 
+  // TODO: Error if not found?
+  async byId(id: string): Promise<Quote> {
+    return this.quotes.then(quotes => quotes.filter(q => q.id === id)[0]);
+  }
+
   async random(): Promise<Quote> {
     return this.quotes.then(quotes => randomElement(quotes));
   }

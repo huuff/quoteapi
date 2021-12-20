@@ -14,6 +14,7 @@
       :autoplay="autoplay"
       @requestRandom="requestRandom"
       @requestQuery="requestQuery"
+      @requestFavorite="requestFavorite"
       @toggleAutoplay="toggleAutoplay"
       class="col col-sm-8 col-lg-6"
     ></the-quote-box>
@@ -36,10 +37,11 @@ import { RingBuffer } from 'ring-buffer-ts';
 import { DebugMessage } from '@/debug/debug-message';
 import { useStore } from '@/store';
 import { storeToRefs } from 'pinia';
+import { randomElement } from '@/quotes/random-element';
 
 const currentQuote = ref<Quote | null>(null);
 const debugLog = reactive(new RingBuffer<DebugMessage>(15));
-const { expertMode, provider } = storeToRefs(useStore());
+const { expertMode, provider, favoriteQuotes } = storeToRefs(useStore());
 const autoplay = ref(true);
 let timeout: number | undefined = undefined;
 
@@ -59,17 +61,23 @@ function updateQuote(promisedQuote: Promise<Quote>) {
 
 function requestRandom() {
   debugLog.add(new DebugMessage('requested'));
-  autoplay.value = true;
+  autoplay.value = true; // TODO: Why should it? Just keep paused until unpaused manually
   updateQuote(provider.value.random());
+}
+
+function requestFavorite() {
+  const randomFavoriteId = randomElement(Array.from(favoriteQuotes.value));
+  debugLog.add(new DebugMessage('requested'));
+  updateQuote(provider.value.byId(randomFavoriteId));
 }
 
 function requestQuery(requestType: RequestType, query: string) {
   debugLog.add(new DebugMessage('requested', { [requestType]: query }));
   if (requestType === 'author')
     updateQuote(provider.value.byAuthor(query));
-  if (requestType === 'tag')
+  else if (requestType === 'tag')
     updateQuote(provider.value.byTag(query));
-  if (requestType === 'work')
+  else if (requestType === 'work')
     updateQuote(provider.value.byWork(query));
 }
 

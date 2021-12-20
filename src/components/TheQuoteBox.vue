@@ -50,6 +50,9 @@
         <button class="btn btn-secondary" @click="$emit('requestRandom')">Random</button>
       </div>
     </div>
+    <div class="card-footer text-center">
+      <a href="#" @click="$emit('requestFavorite')">Give me one of my favorites!</a>
+    </div>
   </main>
 </template>
 
@@ -68,6 +71,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   (event: 'requestRandom'): void;
   (event: 'requestQuery', type: RequestType, author: string): void;
+  (event: 'requestFavorite'): void;
   (event: 'toggleAutoplay'): void;
 }>();
 

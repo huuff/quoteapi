@@ -13,6 +13,7 @@ export interface QuoteProvider {
   byAuthor(author: string): Promise<Quote>;
   byTag(tag: string): Promise<Quote>;
   byWork(work: string): Promise<Quote>;
+  byId(id: string): Promise<Quote>;
 }
 
 const PROVIDER_MAP: { [type in ProviderType]: QuoteProvider } = {

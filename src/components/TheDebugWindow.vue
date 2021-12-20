@@ -19,6 +19,9 @@
         </li>
       </ul>
     </div>
+    <footer class="card-footer">
+      <button class="btn btn-danger btn btn-sm" @click="clearStorage">Clear storage</button>
+    </footer>
   </div>
 </div>
 </template>
@@ -66,6 +69,10 @@ function getColor(messageType: DebugMessageType): BootstrapColor {
     return 'warning';
   else
     throw new Error(`Debug message type ${messageType} not defined`);
+}
+
+function clearStorage() {
+  localStorage.clear();
 }
 </script>
 

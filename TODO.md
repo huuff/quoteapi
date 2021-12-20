@@ -5,4 +5,3 @@
 * Test it
 * An alert with an error when a request is unsuccessful
 * Separate the actions bar in `TheQuoteBox.vue` from the rest of the quote box?
-* Option to delete everything in `localStorage` in the debug window

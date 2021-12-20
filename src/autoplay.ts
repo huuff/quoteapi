@@ -31,21 +31,25 @@ export class Autoplay {
   }
 
   public start(): void {
-    this.provider.value.random().then(this.resetTimeout.bind(this));
+    this.provider.value.random().then((quote) => {
+      this.updateQuote(quote);
+      this.resetTimeout(quote.contents.length);
+    });
   }
 
-  public resetTimeout(newQuote: Quote): void {
-    this.updateQuote(newQuote);
+  public resetTimeout(quoteLength: number): void {
     if (this.enabled) {
-      this.timeoutId = setTimeout(
-        () => this.provider.value.random().then(this.resetTimeout.bind(this)),
-        this.calculateTimeoutDuration(newQuote)
+      this.timeoutId = setTimeout(() => this.provider.value.random().then((newQuote) => {
+        this.updateQuote(newQuote);
+        this.resetTimeout(newQuote.contents.length);
+      }),
+        this.calculateTimeoutDuration(quoteLength)
       );
     }
   }
 
   // So quotes stay longer the longer they are, and time is enough to read them
-  private calculateTimeoutDuration(quote: Quote) {
-    return MINIMUM_TIMEOUT + (quote.contents.length * 10);
+  private calculateTimeoutDuration(quoteLength: number) {
+    return MINIMUM_TIMEOUT + (quoteLength * 10);
   }
 }

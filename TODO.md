@@ -5,4 +5,4 @@
 * Test it
 * An alert with an error when a request is unsuccessful
 * Separate the actions bar in `TheQuoteBox.vue` from the rest of the quote box?
-* `random-element` should probably not be inside the `quotes` folder
+* Option to delete everything in `localStorage` in the debug window

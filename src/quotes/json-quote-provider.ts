@@ -1,6 +1,6 @@
 import { Quote } from './quote';
 import { QuoteProvider, ProviderType } from './quote-provider';
-import { randomElement } from './random-element';
+import { randomElement } from '@/random-element';
 import sampleQuotes from './sample-quotes.json';
 
 export class JsonQuoteProvider implements QuoteProvider {

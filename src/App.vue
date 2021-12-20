@@ -37,7 +37,7 @@ import { RingBuffer } from 'ring-buffer-ts';
 import { DebugMessage } from '@/debug/debug-message';
 import { useStore } from '@/store';
 import { storeToRefs } from 'pinia';
-import { randomElement } from '@/quotes/random-element';
+import { randomElement } from '@/random-element';
 
 const currentQuote = ref<Quote | null>(null);
 const debugLog = reactive(new RingBuffer<DebugMessage>(15));

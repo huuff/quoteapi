@@ -43,7 +43,7 @@ import { Autoplay } from '@/autoplay';
 const currentQuote = ref<Quote | undefined>(undefined);
 const debugLog = reactive(new RingBuffer<DebugMessage>(15));
 const { expertMode, provider, favoriteQuotes } = storeToRefs(useStore());
-const autoplay = reactive(new Autoplay(provider, updateQuote));
+const autoplay = reactive(new Autoplay(updateQuote));
 
 
 function updateQuote(newQuote: Quote) {
@@ -51,25 +51,31 @@ function updateQuote(newQuote: Quote) {
   currentQuote.value = newQuote;
 }
 
+// TODO: clean this up by refactoring my request code so it's terser (only one method?)
+function updateQuoteAndResetTimeout(newQuote: Quote) {
+  updateQuote(newQuote);
+  autoplay.resetTimeout(newQuote.contents.length);
+}
+
 function requestRandom() {
   debugLog.add(new DebugMessage('requested'));
-  provider.value.random().then(updateQuote);
+  provider.value.random().then(updateQuoteAndResetTimeout);
 }
 
 function requestFavorite() {
   const randomFavoriteId = randomElement(Array.from(favoriteQuotes.value));
   debugLog.add(new DebugMessage('requested'));
-  provider.value.byId(randomFavoriteId).then(updateQuote);
+  provider.value.byId(randomFavoriteId).then(updateQuoteAndResetTimeout);
 }
 
 function requestQuery(requestType: RequestType, query: string) {
   debugLog.add(new DebugMessage('requested', { [requestType]: query }));
   if (requestType === 'author')
-    provider.value.byAuthor(query).then(updateQuote);
+    provider.value.byAuthor(query).then(updateQuoteAndResetTimeout);
   else if (requestType === 'tag')
-    provider.value.byTag(query).then(updateQuote);
+    provider.value.byTag(query).then(updateQuoteAndResetTimeout);
   else if (requestType === 'work')
-    provider.value.byWork(query).then(updateQuote);
+    provider.value.byWork(query).then(updateQuoteAndResetTimeout);
 }
 
 onUnmounted(() => autoplay.stop());

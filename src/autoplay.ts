@@ -1,15 +1,12 @@
-import { Ref } from 'vue';
-import { QuoteProvider } from '@/quotes/quote-provider';
 import { Quote } from '@/quotes/quote';
-
-const MINIMUM_TIMEOUT = 7000;
+import { useStore } from '@/store';
 
 export class Autoplay {
+  private readonly store = useStore();
   public enabled: boolean;
   private timeoutId: number | undefined;
   
   constructor(
-    private readonly provider: Ref<QuoteProvider>,
     private readonly updateQuote: (quote: Quote) => void,
   ) {
     this.enabled = true; 
@@ -31,15 +28,17 @@ export class Autoplay {
   }
 
   public start(): void {
-    this.provider.value.random().then((quote) => {
+    
+    this.store.provider.random().then((quote) => {
       this.updateQuote(quote);
       this.resetTimeout(quote.contents.length);
     });
   }
 
   public resetTimeout(quoteLength: number): void {
+    clearTimeout(this.timeoutId);
     if (this.enabled) {
-      this.timeoutId = setTimeout(() => this.provider.value.random().then((newQuote) => {
+      this.timeoutId = setTimeout(() => this.store.provider.random().then((newQuote) => {
         this.updateQuote(newQuote);
         this.resetTimeout(newQuote.contents.length);
       }),
@@ -50,6 +49,6 @@ export class Autoplay {
 
   // So quotes stay longer the longer they are, and time is enough to read them
   private calculateTimeoutDuration(quoteLength: number) {
-    return MINIMUM_TIMEOUT + (quoteLength * 10);
+    return 7000 + (quoteLength * 10);
   }
 }

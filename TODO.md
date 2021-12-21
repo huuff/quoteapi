@@ -1,5 +1,5 @@
 # Task
 * Add at least 10 quotes (hardcoded)
-* Use sentiment analysis to set a background according to the emotion of the quote
+* Make it so the expert switch top stuff doesn't look so terrible
 * Test it
 * An alert with an error when a request is unsuccessful

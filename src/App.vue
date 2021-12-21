@@ -1,31 +1,33 @@
 <template>
   <div class="fixed-top d-flex flex-row justify-content-end me-4">
-    <div class="d-flex flex-column">
+    <div class="d-flex flex-column card shadow">
       <the-expert-mode-switch></the-expert-mode-switch>
       <the-provider-selector 
-        :style="{ opacity: expertMode ? '100%' : '0%'}"
+        :style="{ opacity: expertMode ? '100%' : '0%' }"
         @changeProvider="request('random')"
       ></the-provider-selector>
     </div>
   </div>
-  <div class="vh-100 row justify-content-center align-items-center">
-    <the-quote-box 
-      :currentQuote="currentQuote"
-      :autoplay="autoplay.enabled"
-      @requestByWork="(work) => request('work', work)"
-      @toggleAutoplay="autoplay.toggle()"
-      class="col col-md-8 col-lg-6"
-    >
-      <the-quote-actions v-if="currentQuote" 
+  <the-background :currentQuote="currentQuote">
+    <div class="vh-100 row justify-content-center align-items-center">
+      <the-quote-box 
         :currentQuote="currentQuote"
         :autoplay="autoplay.enabled"
-        @requestRandom="request('random')"
-        @requestFavorite="request('id')"
-        @requestQuery="request"
+        @requestByWork="(work) => request('work', work)"
+        @toggleAutoplay="autoplay.toggle()"
+        class="col col-md-8 col-lg-6"
       >
-      </the-quote-actions>
-    </the-quote-box>
-  </div>
+        <the-quote-actions v-if="currentQuote" 
+          :currentQuote="currentQuote"
+          :autoplay="autoplay.enabled"
+          @requestRandom="request('random')"
+          @requestFavorite="request('id')"
+          @requestQuery="request"
+        >
+        </the-quote-actions>
+      </the-quote-box>
+    </div>
+  </the-background>
   <the-debug-window v-if="expertMode"
     class="fixed-bottom ms-4"
     :log="debugLog"
@@ -40,6 +42,7 @@ import TheDebugWindow from '@/components/TheDebugWindow.vue';
 import TheExpertModeSwitch from '@/components/TheExpertModeSwitch.vue';
 import TheProviderSelector from '@/components/TheProviderSelector.vue';
 import TheQuoteActions from '@/components/TheQuoteActions.vue';
+import TheBackground from '@/components/TheBackground.vue';
 import { Quote } from '@/quotes/quote';
 import { RequestType } from '@/request-type';
 import { RingBuffer } from 'ring-buffer-ts';

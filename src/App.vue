@@ -54,7 +54,6 @@ function updateQuote(newQuote: Quote) {
 
 
 function request(requestType: 'random' | 'id'): void;
-/* eslint-disable */
 function request(requestType: 'tag' | 'work' | 'author', query: string): void;
 function request(requestType: RequestType, query?: string): void {
   function updateAndResetAutoplay(quote: Quote): void {

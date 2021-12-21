@@ -16,7 +16,7 @@
       @requestFavorite="request('id')"
       @requestQuery="request"
       @toggleAutoplay="autoplay.toggle()"
-      class="col col-sm-8 col-lg-6"
+      class="col col-md-8 col-lg-6"
     ></the-quote-box>
   </div>
   <the-debug-window v-if="expertMode"

@@ -12,12 +12,19 @@
     <the-quote-box 
       :currentQuote="currentQuote"
       :autoplay="autoplay.enabled"
-      @requestRandom="request('random')"
-      @requestFavorite="request('id')"
-      @requestQuery="request"
+      @requestByWork="(work) => request('work', work)"
       @toggleAutoplay="autoplay.toggle()"
       class="col col-md-8 col-lg-6"
-    ></the-quote-box>
+    >
+      <the-quote-actions v-if="currentQuote" 
+        :currentQuote="currentQuote"
+        :autoplay="autoplay.enabled"
+        @requestRandom="request('random')"
+        @requestFavorite="request('id')"
+        @requestQuery="request"
+      >
+      </the-quote-actions>
+    </the-quote-box>
   </div>
   <the-debug-window v-if="expertMode"
     class="fixed-bottom ms-4"
@@ -32,6 +39,7 @@ import TheQuoteBox from '@/components/TheQuoteBox.vue';
 import TheDebugWindow from '@/components/TheDebugWindow.vue';
 import TheExpertModeSwitch from '@/components/TheExpertModeSwitch.vue';
 import TheProviderSelector from '@/components/TheProviderSelector.vue';
+import TheQuoteActions from '@/components/TheQuoteActions.vue';
 import { Quote } from '@/quotes/quote';
 import { RequestType } from '@/request-type';
 import { RingBuffer } from 'ring-buffer-ts';
@@ -51,7 +59,6 @@ function updateQuote(newQuote: Quote) {
   debugLog.add(new DebugMessage('received', newQuote));
   currentQuote.value = newQuote;
 }
-
 
 function request(requestType: 'random' | 'id'): void;
 function request(requestType: 'tag' | 'work' | 'author', query: string): void;

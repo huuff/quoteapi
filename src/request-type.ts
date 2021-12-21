@@ -1,1 +1,1 @@
-export type RequestType = 'random' | 'author' | 'work' | 'tag' | 'favorite';
+export type RequestType = 'random' | 'author' | 'work' | 'tag' | 'id';

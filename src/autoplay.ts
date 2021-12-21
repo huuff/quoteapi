@@ -31,7 +31,7 @@ export class Autoplay {
 
   public start(): void {
     
-    this.store.provider.random().then((quote) => {
+    this.store.provider.request('random').then((quote) => {
       this.updateQuote(quote);
       this.resetTimeout(quote.contents.length);
     });
@@ -40,7 +40,7 @@ export class Autoplay {
   public resetTimeout(quoteLength: number): void {
     clearTimeout(this.timeoutId);
     if (this.enabled) {
-      this.timeoutId = setTimeout(() => this.store.provider.random().then((newQuote) => {
+      this.timeoutId = setTimeout(() => this.store.provider.request('random').then((newQuote: Quote) => {
         this.updateQuote(newQuote);
         this.resetTimeout(newQuote.contents.length);
       }),

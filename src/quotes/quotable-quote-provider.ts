@@ -24,23 +24,23 @@ export class QuotableQuoteProvider implements QuoteProvider {
   public readonly type: ProviderType = ProviderType.quotable;
   private readonly RANDOM_URL = 'https://api.quotable.io/random';
 
-  async random(): Promise<Quote> {
-    return axios.get<QuotableQuote>(this.RANDOM_URL).then(response => fromQuotable(response.data));
+
+  request(type: 'random'): Promise<Quote>;
+  request(type: 'author' | 'tag' | 'work' | 'id', query: string): Promise<Quote>;
+  async request(type: any, query?: any): Promise<Quote> {
+    if (type === 'random')
+      return axios.get<QuotableQuote>(this.RANDOM_URL).then(response => fromQuotable(response.data));
+    else if (type === 'author') {
+      return axios.get<QuotableQuote>(this.RANDOM_URL, { params: { author: query } }).then(response => fromQuotable(response.data));
+    } else if (type === 'work') {
+      throw new Error('Method not implemented.');
+    } else if (type === 'id') {
+      return axios.get<QuotableQuote>(`https://api.quotable.io/quotes/${query}`).then(response => fromQuotable(response.data));
+    } else if (type === 'tag') {
+      return axios.get<QuotableQuote>(this.RANDOM_URL, { params: { tags: query } }).then(response => fromQuotable(response.data));
+    } else {
+      throw new Error();
+    }
   }
 
-  async byId(id: string): Promise<Quote> {
-    return axios.get<QuotableQuote>(`https://api.quotable.io/quotes/${id}`).then(response => fromQuotable(response.data));
-  }
-
-  async byAuthor(author: string): Promise<Quote> {
-    return axios.get<QuotableQuote>(this.RANDOM_URL, { params: { author } }).then(response => fromQuotable(response.data));
-  }
-
-  async byTag(tag: string): Promise<Quote> {
-    return axios.get<QuotableQuote>(this.RANDOM_URL, { params: { tags: tag } }).then(response => fromQuotable(response.data));
-  }
-
-  async byWork(_: string): Promise<Quote> {
-    throw new Error('Method not implemented.');
-  }
 }

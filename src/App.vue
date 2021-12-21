@@ -4,7 +4,7 @@
       <the-expert-mode-switch></the-expert-mode-switch>
       <the-provider-selector 
         :style="{ opacity: expertMode ? '100%' : '0%'}"
-        @changeProvider='requestRandom()'
+        @changeProvider="request('random')"
       ></the-provider-selector>
     </div>
   </div>
@@ -12,9 +12,9 @@
     <the-quote-box 
       :currentQuote="currentQuote"
       :autoplay="autoplay.enabled"
-      @requestRandom="requestRandom"
-      @requestQuery="requestQuery"
-      @requestFavorite="requestFavorite"
+      @requestRandom="request('random')"
+      @requestFavorite="request('id')"
+      @requestQuery="request"
       @toggleAutoplay="autoplay.toggle()"
       class="col col-sm-8 col-lg-6"
     ></the-quote-box>
@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onUnmounted, reactive, onMounted } from 'vue';
+import { ref, onUnmounted, reactive, } from 'vue';
 import TheQuoteBox from '@/components/TheQuoteBox.vue';
 import TheDebugWindow from '@/components/TheDebugWindow.vue';
 import TheExpertModeSwitch from '@/components/TheExpertModeSwitch.vue';
@@ -52,31 +52,25 @@ function updateQuote(newQuote: Quote) {
   currentQuote.value = newQuote;
 }
 
-// TODO: clean this up by refactoring my request code so it's terser (only one method?)
-function updateQuoteAndResetTimeout(newQuote: Quote) {
-  updateQuote(newQuote);
-  autoplay.resetTimeout(newQuote.contents.length);
-}
 
-function requestRandom() {
-  debugLog.add(new DebugMessage('requested'));
-  provider.value.random().then(updateQuoteAndResetTimeout);
-}
+function request(requestType: 'random' | 'id'): void;
+/* eslint-disable */
+function request(requestType: 'tag' | 'work' | 'author', query: string): void;
+function request(requestType: RequestType, query?: string): void {
+  function updateAndResetAutoplay(quote: Quote): void {
+    updateQuote(quote);
+    autoplay.resetTimeout(quote.contents.length);
+  }
 
-function requestFavorite() {
-  const randomFavoriteId = randomElement(Array.from(favoriteQuotes.value));
-  debugLog.add(new DebugMessage('requested'));
-  provider.value.byId(randomFavoriteId).then(updateQuoteAndResetTimeout);
-}
-
-function requestQuery(requestType: RequestType, query: string) {
-  debugLog.add(new DebugMessage('requested', { [requestType]: query }));
-  if (requestType === 'author')
-    provider.value.byAuthor(query).then(updateQuoteAndResetTimeout);
-  else if (requestType === 'tag')
-    provider.value.byTag(query).then(updateQuoteAndResetTimeout);
-  else if (requestType === 'work')
-    provider.value.byWork(query).then(updateQuoteAndResetTimeout);
+  if (requestType === 'id') { // requesting a favorite
+    const randomFavoriteId = randomElement(Array.from(favoriteQuotes.value));
+    provider.value.request(requestType, randomFavoriteId).then(updateAndResetAutoplay);
+  } else if (requestType !== 'random' && query) {
+    provider.value.request(requestType, query).then(updateAndResetAutoplay);
+  } else if (requestType === 'random') {
+    provider.value.request(requestType).then(updateAndResetAutoplay);
+  }
+  debugLog.add(new DebugMessage('requested', { [requestType]: query}));
 }
 
 onUnmounted(() => autoplay.stop());

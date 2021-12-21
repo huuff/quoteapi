@@ -70,7 +70,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (event: 'requestRandom'): void;
-  (event: 'requestQuery', type: RequestType, author: string): void;
+  (event: 'requestQuery', type: 'author' | 'tag' | 'work', query: string): void;
   (event: 'requestFavorite'): void;
   (event: 'toggleAutoplay'): void;
 }>();

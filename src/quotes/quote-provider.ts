@@ -9,11 +9,8 @@ export enum ProviderType {
 
 export interface QuoteProvider {
   type: ProviderType;
-  random(): Promise<Quote>; 
-  byAuthor(author: string): Promise<Quote>;
-  byTag(tag: string): Promise<Quote>;
-  byWork(work: string): Promise<Quote>;
-  byId(id: string): Promise<Quote>;
+  request(type: 'random'): Promise<Quote>;
+  request(type: 'author' | 'tag' | 'work' | 'id', query: string): Promise<Quote>;
 }
 
 const PROVIDER_MAP: { [type in ProviderType]: QuoteProvider } = {

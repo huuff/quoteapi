@@ -15,7 +15,7 @@
         :autoplay="autoplay.enabled"
         @requestByWork="(work) => request('work', work)"
         @toggleAutoplay="autoplay.toggle()"
-        class="col col-md-8 col-lg-6"
+        class="col col-md-10 col-lg-8 col-xl-6"
       >
         <the-quote-actions v-if="currentQuote" 
           :currentQuote="currentQuote"

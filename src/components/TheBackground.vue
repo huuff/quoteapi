@@ -1,7 +1,7 @@
 <template>
   <div id="the-background"
     class="vh-100 row justify-content-center align-items-center"
-    :style="{ backgroundColor: `hsl(120, 20%, ${background}%)` }"
+    :style="{ backgroundColor: background }"
   >
     <slot></slot>
   </div>
@@ -18,11 +18,13 @@ const props = defineProps<{
 
 const analyzer = new Sentiment();
 
-// TODO: Change hue, saturation dynamically
 const background = computed(() => {
   if (props.currentQuote) {
     const sentiment = analyzer.analyze(props.currentQuote.contents).score;
-    return (sentiment + 5) * 10;
+    const lightness = (sentiment + 5) * 10;
+    const hue = Math.floor(Math.random() * 360);
+    const saturation = Math.round(20 + (Math.random() * 20));
+    return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
   } else {
     return undefined;
   }

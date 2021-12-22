@@ -1,4 +1,5 @@
 <template>
+  <the-error-alert :error="latestError"></the-error-alert>
   <div class="fixed-top d-flex flex-row justify-content-end me-4">
     <div class="d-flex flex-column card shadow align-items-center p-1">
       <the-expert-mode-switch></the-expert-mode-switch>
@@ -44,6 +45,7 @@ import TheExpertModeSwitch from '@/components/TheExpertModeSwitch.vue';
 import TheProviderSelector from '@/components/TheProviderSelector.vue';
 import TheQuoteActions from '@/components/TheQuoteActions.vue';
 import TheBackground from '@/components/TheBackground.vue';
+import TheErrorAlert from './components/TheErrorAlert.vue';
 import { Quote } from '@/quotes/quote';
 import { RequestType } from '@/request-type';
 import { RingBuffer } from 'ring-buffer-ts';
@@ -57,11 +59,13 @@ const currentQuote = ref<Quote | undefined>(undefined);
 const debugLog = reactive(new RingBuffer<DebugMessage>(15));
 const { expertMode, provider, favoriteQuotes } = storeToRefs(useStore());
 const autoplay = reactive(new Autoplay(updateQuote));
+const latestError = ref<string | undefined>(undefined);
 
 
 function updateQuote(newQuote: Quote) {
   debugLog.add(new DebugMessage('received', newQuote));
   currentQuote.value = newQuote;
+  latestError.value = undefined;
 }
 
 function request(requestType: 'random' | 'id'): void;
@@ -79,8 +83,10 @@ async function request(requestType: RequestType, query?: string): Promise<void> 
     } else if (requestType === 'random') {
       quote = await provider.value.request(requestType);
     }
-  } catch(error) {
-    console.log(error);
+  } catch(caught) {
+    if (caught instanceof Error) {
+      latestError.value = caught.message;
+    }
   }
 
   if (!quote)

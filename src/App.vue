@@ -66,21 +66,28 @@ function updateQuote(newQuote: Quote) {
 
 function request(requestType: 'random' | 'id'): void;
 function request(requestType: 'tag' | 'work' | 'author', query: string): void;
-function request(requestType: RequestType, query?: string): void {
-  function updateAndResetAutoplay(quote: Quote): void {
-    updateQuote(quote);
-    autoplay.resetTimeout(quote.contents.length);
+async function request(requestType: RequestType, query?: string): Promise<void> {
+  debugLog.add(new DebugMessage('requested', { [requestType]: query}));
+  
+  let quote: (Quote | undefined) = undefined;
+  try {
+    if (requestType === 'id') { // requesting a favorite
+      const randomFavoriteId = randomElement(Array.from(favoriteQuotes.value));
+      quote = await provider.value.request(requestType, randomFavoriteId);
+    } else if (requestType !== 'random' && query) {
+      quote = await provider.value.request(requestType, query);
+    } else if (requestType === 'random') {
+      quote = await provider.value.request(requestType);
+    }
+  } catch(error) {
+    console.log(error);
   }
 
-  if (requestType === 'id') { // requesting a favorite
-    const randomFavoriteId = randomElement(Array.from(favoriteQuotes.value));
-    provider.value.request(requestType, randomFavoriteId).then(updateAndResetAutoplay);
-  } else if (requestType !== 'random' && query) {
-    provider.value.request(requestType, query).then(updateAndResetAutoplay);
-  } else if (requestType === 'random') {
-    provider.value.request(requestType).then(updateAndResetAutoplay);
-  }
-  debugLog.add(new DebugMessage('requested', { [requestType]: query}));
+  if (!quote)
+    return;
+
+  updateQuote(quote);
+  autoplay.resetTimeout(quote.contents.length);
 }
 
 onUnmounted(() => autoplay.stop());

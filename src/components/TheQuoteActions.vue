@@ -10,11 +10,11 @@
         @click="store.toggleFavorite(currentQuote.id)"
         >
       </font-awesome-icon>
-      <transition name="fade" mode="out-in">
+      <base-fade :show="currentQuote">
         <span :key="currentQuote.tags">
           <a v-for="tag in currentQuote.tags" :key="tag" href="#" class="card-link" @click="$emit('requestQuery', 'tag', tag)">{{tag}}</a>
         </span>
-      </transition>
+      </base-fade>
     </div>
 
     <div>
@@ -37,6 +37,7 @@
 <script setup lang="ts">
 import { useStore } from '@/store';
 import { Quote } from '@/quotes/quote';
+import BaseFade from '@/components/BaseFade.vue';
 
 const store = useStore();
 
@@ -69,16 +70,5 @@ const emit = defineEmits<{
 #like:hover {
   transform: scale(1.2);
   transition: transform 0.2s;
-}
-
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.75s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
 }
 </style>

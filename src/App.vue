@@ -1,11 +1,12 @@
 <template>
   <div class="fixed-top d-flex flex-row justify-content-end me-4">
-    <div class="d-flex flex-column card shadow">
+    <div class="d-flex flex-column card shadow align-items-center p-1">
       <the-expert-mode-switch></the-expert-mode-switch>
-      <the-provider-selector 
-        :style="{ opacity: expertMode ? '100%' : '0%' }"
-        @changeProvider="request('random')"
-      ></the-provider-selector>
+      <div v-show="expertMode">
+        <the-provider-selector 
+          @changeProvider="request('random')"
+        ></the-provider-selector>
+      </div>
     </div>
   </div>
   <the-background :currentQuote="currentQuote">
@@ -29,7 +30,7 @@
     </div>
   </the-background>
   <the-debug-window v-if="expertMode"
-    class="fixed-bottom ms-4"
+    class="fixed-bottom ms-4 shadow-sm"
     :log="debugLog"
     :nextRefresh="autoplay.nextRefresh"
   ></the-debug-window>

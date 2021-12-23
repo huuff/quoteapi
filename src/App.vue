@@ -76,6 +76,8 @@ async function request(requestType: RequestType, query?: string): Promise<void> 
   let quote: (Quote | undefined) = undefined;
   try {
     if (requestType === 'id') { // requesting a favorite
+      if (favoriteQuotes.value.size === 0)
+        throw new Error("You didn't like any quotes!");
       const randomFavoriteId = randomElement(Array.from(favoriteQuotes.value));
       quote = await provider.value.request(requestType, randomFavoriteId);
     } else if (requestType !== 'random' && query) {

@@ -64,8 +64,12 @@ const latestError = ref<string | undefined>(undefined);
 
 function updateQuote(newQuote: Quote) {
   debugLog.add(new DebugMessage('received', newQuote));
-  currentQuote.value = newQuote;
-  latestError.value = undefined;
+  if (newQuote.id !== currentQuote.value?.id) {
+    currentQuote.value = newQuote;
+    latestError.value = undefined;
+  } else {
+    latestError.value = "The received query is the same as the current one";
+  }
 }
 
 function request(requestType: 'random' | 'id'): void;

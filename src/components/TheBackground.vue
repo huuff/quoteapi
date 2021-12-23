@@ -1,6 +1,6 @@
 <template>
   <div id="the-background"
-    class="vh-100 row justify-content-center align-items-center"
+    class="vh-100 row justify-content-center align-items-center}"
     :style="{ background }"
   >
     <slot></slot>
@@ -26,7 +26,8 @@ const background = computed(() => {
     const saturation = Math.round(20 + (Math.random() * 20));
     const gradientStartingColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`
     const gradientEndingColor = `hsl(${hue}, ${saturation}%, ${lightness + 20}%)`;
-    return `linear-gradient(to left top, ${gradientStartingColor}, ${gradientEndingColor})`;
+    /*return `linear-gradient(to left top, ${gradientStartingColor}, ${gradientEndingColor})`;*/
+    return 'red';
   } else {
     return undefined;
   }

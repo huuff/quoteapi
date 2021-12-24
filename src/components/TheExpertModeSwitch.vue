@@ -17,7 +17,7 @@ const { expertMode } = storeToRefs(store);
 
 const switchState = computed({
   get: () => expertMode.value,
-  set: (_) => store.toggleExpertMode()
+  set: (_) => store.toggleExpertMode(),
 });
 </script>
 

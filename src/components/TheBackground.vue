@@ -26,16 +26,16 @@ const background = computed(() => {
     const saturation = Math.round(20 + (Math.random() * 20));
     const gradientStartingColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`
     const gradientEndingColor = `hsl(${hue}, ${saturation}%, ${lightness + 20}%)`;
-    /*return `linear-gradient(to left top, ${gradientStartingColor}, ${gradientEndingColor})`;*/
-    return 'red';
+    return `linear-gradient(to left top, ${gradientStartingColor}, ${gradientEndingColor})`;
   } else {
     return undefined;
   }
 });
 </script>
 
+<!-- Transition won't work for gradients :( -->
 <style scoped>
 #the-background {
-  transition: background-color 1s;
+  transition: background 1s;
 }
 </style>

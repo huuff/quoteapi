@@ -49,7 +49,7 @@ const updateTimeToRefresh = setInterval(() => timeToRefresh.value = Math.round((
 
 onMounted(() => {
   if (collapsibleElement.value) {
-    collapsible = new Collapse(collapsibleElement.value, { toggle: false});
+    collapsible = new Collapse(collapsibleElement.value, { toggle: false });
   } 
 });
 

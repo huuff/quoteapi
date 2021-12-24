@@ -21,7 +21,6 @@ log.add(FAKE_MESSAGE)
 describe('TheDebugWindow', () => {
   const wrapper = mount(TheDebugWindow, {
     props: {
-      show: false,
       nextRefresh: NEXT_REFRESH,
       log,
     },
@@ -30,16 +29,13 @@ describe('TheDebugWindow', () => {
     },
   });  
 
-  it('is not shown when show is false', () => {
+  it('is initially not shown', () => {
     expect(wrapper.find('.collapse').element.classList).not.toContain('show');
   });
 
-  describe('when show is true', () => {
-      it('is shown', async () => {
-        await wrapper.setProps({ show: true }).then(() => {
-        expect(wrapper.find('.collapse').element.classList).toContain('show');
-      });
+  it('is opens when the expand button is clicked', async () => {
+    await wrapper.find('.card-header button').trigger('click');
 
-    })
+    expect(wrapper.find('.collapsing').exists());
   });
 });

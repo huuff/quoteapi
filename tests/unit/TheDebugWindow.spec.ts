@@ -29,8 +29,15 @@ describe('TheDebugWindow', () => {
       stubs: [ 'font-awesome-icon' ],
     },
   });  
-  it('is not shown when show is false', () => {
 
+  it('is not shown when show is false', () => {
     expect(wrapper.find('.collapse').element.classList).not.toContain('show');
   });
+
+  describe('when show is true', () => wrapper.setProps({ show: true }).then(() => {
+      it('is shown', () => {
+        expect(wrapper.find('.collapse').element.classList).toContain('show');
+      });
+    })
+  );
 });

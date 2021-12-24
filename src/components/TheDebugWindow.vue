@@ -54,7 +54,6 @@ onMounted(() => {
 });
 
 watch(show, (newValue: boolean) => {
-  console.log("Toggling collapsible");
   if (newValue)
     collapsible?.show();
   else

@@ -34,10 +34,12 @@ describe('TheDebugWindow', () => {
     expect(wrapper.find('.collapse').element.classList).not.toContain('show');
   });
 
-  describe('when show is true', () => wrapper.setProps({ show: true }).then(() => {
-      it('is shown', () => {
+  describe('when show is true', () => {
+      it('is shown', async () => {
+        await wrapper.setProps({ show: true }).then(() => {
         expect(wrapper.find('.collapse').element.classList).toContain('show');
       });
+
     })
-  );
+  });
 });

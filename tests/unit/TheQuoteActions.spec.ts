@@ -37,30 +37,30 @@ describe('TheQuoteActions.vue', () => {
   });
 
   it('like button is "regular" (empty) when not a favorite quote', () => {
-    expect(wrapper.find('#like').attributes()['data-prefix']).toBe('far');
+    expect(wrapper.get('#like').attributes()['data-prefix']).toBe('far');
   });
 
   it('like button is "solid" (filled) when it\'s a favorite quote', async () => {
     store.favoriteQuotes = new Set<string>([TEST_QUOTE.id]);
     await wrapper.vm.$forceUpdate();
-    expect(wrapper.find('#like').attributes()['data-prefix']).toBe('fas');
+    expect(wrapper.get('#like').attributes()['data-prefix']).toBe('fas');
   });
 
   it('clicking the like toggles the favorite status', async () => {
-    await wrapper.find('#like').trigger('click');
+    await wrapper.get('#like').trigger('click');
 
     expect(store.toggleFavorite).toHaveBeenCalledWith(TEST_QUOTE.id);
   });
 
   describe('requests', () => {
     it('random triggers a requestRandom event', async () => {
-      await wrapper.find('#requestRandomButton').trigger('click');
+      await wrapper.get('#requestRandomButton').trigger('click');
 
       expect(wrapper.emitted()['requestRandom']).toBeDefined();
     }); 
     
     it('author request triggers a requestQuery with the author', async () => {
-      await wrapper.find('#requestAuthorButton').trigger('click');
+      await wrapper.get('#requestAuthorButton').trigger('click');
 
       expect(wrapper.emitted()['requestQuery']).toBeDefined();
       expect((wrapper.emitted()['requestQuery'][0] as string[])[0]).toBe('author');
@@ -68,7 +68,7 @@ describe('TheQuoteActions.vue', () => {
     });
 
     it('tag request triggers a requestQuery with the tag', async () => {
-      await wrapper.find('#tags a:first-child').trigger('click');
+      await wrapper.get('#tags a:first-child').trigger('click');
 
       expect(wrapper.emitted()['requestQuery']).toBeDefined();
       expect((wrapper.emitted()['requestQuery'][1] as string[])[0]).toBe('tag');
@@ -76,9 +76,27 @@ describe('TheQuoteActions.vue', () => {
     });
 
     it('favorite request triggers a requestFavorite', async () => {
-      await wrapper.find('#requestFavorite').trigger('click');
+      await wrapper.get('#requestFavorite').trigger('click');
 
       expect(wrapper.emitted()['requestFavorite']).toBeDefined();
+    });
+  });
+
+  describe('autoplay', () => {
+    it('when true, the icon is a pause', () => {
+      expect(wrapper.get('#autoplayIcon').attributes()['data-icon']).toBe('pause');
+    }); 
+
+    it('when clicked triggers a toggle autoplay event', async () => {
+      await wrapper.get('#autoplayButton').trigger('click');
+
+      expect(wrapper.emitted()['toggleAutoplay']).toBeDefined();
+    })
+
+    it('is a play icon when false', async () => {
+      await wrapper.setProps({ autoplay: false });
+
+      expect(wrapper.get('#autoplayIcon').attributes()['data-icon']).toBe('play');
     });
   });
 });

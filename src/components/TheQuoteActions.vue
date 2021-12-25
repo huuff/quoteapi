@@ -20,10 +20,11 @@
     <div>
       <button 
         class="btn btn-outline mx-2" 
+        id="autoplayButton"
         :class="autoplay ? 'btn-primary' : 'btn-success'"
         @click="$emit('toggleAutoplay')"
       >
-        <font-awesome-icon :icon="autoplay ? 'pause' : 'play'"></font-awesome-icon>
+        <font-awesome-icon :icon="autoplay ? 'pause' : 'play'" id="autoplayIcon"></font-awesome-icon>
       </button>
       <button class="btn btn-info" id="requestAuthorButton" @click="$emit('requestQuery', 'author', currentQuote.author)">Same author</button>
       <button class="btn btn-secondary" id="requestRandomButton" @click="$emit('requestRandom')">Random</button>

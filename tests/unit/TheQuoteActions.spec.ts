@@ -51,4 +51,34 @@ describe('TheQuoteActions.vue', () => {
 
     expect(store.toggleFavorite).toHaveBeenCalledWith(TEST_QUOTE.id);
   });
+
+  describe('requests', () => {
+    it('random triggers a requestRandom event', async () => {
+      await wrapper.find('#requestRandomButton').trigger('click');
+
+      expect(wrapper.emitted()['requestRandom']).toBeDefined();
+    }); 
+    
+    it('author request triggers a requestQuery with the author', async () => {
+      await wrapper.find('#requestAuthorButton').trigger('click');
+
+      expect(wrapper.emitted()['requestQuery']).toBeDefined();
+      expect((wrapper.emitted()['requestQuery'][0] as string[])[0]).toBe('author');
+      expect((wrapper.emitted()['requestQuery'][0] as string[])[1]).toBe(TEST_QUOTE.author);
+    });
+
+    it('tag request triggers a requestQuery with the tag', async () => {
+      await wrapper.find('#tags a:first-child').trigger('click');
+
+      expect(wrapper.emitted()['requestQuery']).toBeDefined();
+      expect((wrapper.emitted()['requestQuery'][1] as string[])[0]).toBe('tag');
+      expect((wrapper.emitted()['requestQuery'][1] as string[])[1]).toBe(TEST_QUOTE.tags[0]);
+    });
+
+    it('favorite request triggers a requestFavorite', async () => {
+      await wrapper.find('#requestFavorite').trigger('click');
+
+      expect(wrapper.emitted()['requestFavorite']).toBeDefined();
+    });
+  });
 });

@@ -11,7 +11,7 @@
         >
       </font-awesome-icon>
       <base-fade :show="currentQuote">
-        <span :key="currentQuote.tags">
+        <span :key="currentQuote.tags" id="tags">
           <a v-for="tag in currentQuote.tags" :key="tag" href="#" class="card-link" @click="$emit('requestQuery', 'tag', tag)">{{tag}}</a>
         </span>
       </base-fade>
@@ -30,7 +30,7 @@
     </div>
   </div>
   <div class="card-footer text-center">
-    <a href="#" @click="$emit('requestFavorite')">Give me one of my favorites!</a>
+    <a href="#" @click="$emit('requestFavorite')" id="requestFavorite">Give me one of my favorites!</a>
   </div>
 </template>
 

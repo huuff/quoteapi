@@ -30,7 +30,6 @@ export class Autoplay {
   }
 
   public start(): void {
-    
     this.store.provider.request('random').then((quote) => {
       this.updateQuote(quote);
       this.resetTimeout(quote.contents.length);

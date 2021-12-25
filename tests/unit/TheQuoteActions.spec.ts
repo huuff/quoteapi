@@ -35,4 +35,20 @@ describe('TheQuoteActions.vue', () => {
       expect(wrapper.text()).toContain(tag);
     }
   });
+
+  it('like button is "regular" (empty) when not a favorite quote', () => {
+    expect(wrapper.find('#like').attributes()['data-prefix']).toBe('far');
+  });
+
+  it('like button is "solid" (filled) when it\'s a favorite quote', async () => {
+    store.favoriteQuotes = new Set<string>([TEST_QUOTE.id]);
+    await wrapper.vm.$forceUpdate();
+    expect(wrapper.find('#like').attributes()['data-prefix']).toBe('fas');
+  });
+
+  it('clicking the like toggles the favorite status', async () => {
+    await wrapper.find('#like').trigger('click');
+
+    expect(store.toggleFavorite).toHaveBeenCalledWith(TEST_QUOTE.id);
+  });
 });

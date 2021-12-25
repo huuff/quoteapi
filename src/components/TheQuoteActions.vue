@@ -25,8 +25,8 @@
       >
         <font-awesome-icon :icon="autoplay ? 'pause' : 'play'"></font-awesome-icon>
       </button>
-      <button class="btn btn-info" @click="$emit('requestQuery', 'author', currentQuote.author)">Same author</button>
-      <button class="btn btn-secondary" @click="$emit('requestRandom')">Random</button>
+      <button class="btn btn-info" id="requestAuthorButton" @click="$emit('requestQuery', 'author', currentQuote.author)">Same author</button>
+      <button class="btn btn-secondary" id="requestRandomButton" @click="$emit('requestRandom')">Random</button>
     </div>
   </div>
   <div class="card-footer text-center">

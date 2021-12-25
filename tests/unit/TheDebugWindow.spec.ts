@@ -14,7 +14,8 @@ beforeAll(() => {
 const LOG_CONTENTS = {
   shouldBeLogged: 'shouldBeLogged'
 };
-const FAKE_MESSAGE = new DebugMessage('received', LOG_CONTENTS );
+const MESSAGE_TYPE = 'received';
+const FAKE_MESSAGE = new DebugMessage(MESSAGE_TYPE, LOG_CONTENTS );
 const log = new RingBuffer<DebugMessage>(1);
 log.add(FAKE_MESSAGE)
 
@@ -37,5 +38,13 @@ describe('TheDebugWindow', () => {
     await wrapper.find('.card-header button').trigger('click');
 
     expect(wrapper.find('.collapsing').exists());
+  });
+
+  it('contains the logged message', () => {
+    const logEntry = wrapper.find('ul li');
+
+    expect(logEntry.text()).toContain(START_TIME);
+    expect(logEntry.text()).toContain(MESSAGE_TYPE);
+    expect(logEntry.text().replaceAll(/\s/g, '')).toContain(JSON.stringify(LOG_CONTENTS));
   });
 });

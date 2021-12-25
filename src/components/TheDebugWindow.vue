@@ -13,9 +13,9 @@
           :key="msg.timestamp.toISOString()"
           class="list-group-item"
         >
-        <div class="text-muted">{{ msg.timestamp.toISOString() }}</div>
-        <div :class="`text-${getColor(msg.type)}`">{{ msg.type }} </div> 
-        <p v-text="JSON.stringify(msg.contents, null, 2)" class="pre-wrap"></p>
+          <div class="text-muted">{{ msg.timestamp.toISOString() }}</div>
+          <div :class="`text-${getColor(msg.type)}`">{{ msg.type }} </div> 
+          <p v-text="JSON.stringify(msg.contents, null, 2)" class="pre-wrap"></p>
         </li>
       </ul>
     </div>

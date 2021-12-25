@@ -1,14 +1,6 @@
 import { mount } from '@vue/test-utils';
 import TheQuoteBox from '@/components/TheQuoteBox.vue';
-
-
-const TEST_QUOTE = {
-  id: "Test id",
-  contents: "Test contents",
-  author: "Test author",
-  work: "Test work",
-  tags: [ "test-tag" ],
-};
+import { TEST_QUOTE } from '../test-data';
 
 describe('TheQuoteBox.vue', () => {
   const wrapper = mount(TheQuoteBox, {

@@ -44,8 +44,12 @@ const props = defineProps<{
   nextRefresh: number;
 }>();
 
-const timeToRefresh = ref(0);
-const updateTimeToRefresh = setInterval(() => timeToRefresh.value = Math.round((props.nextRefresh - new Date().getTime()) / 1000), 250);
+function calculateTimeToRefresh() {
+  return Math.round((props.nextRefresh - new Date().getTime()) / 1000) ;
+}
+
+const timeToRefresh = ref(calculateTimeToRefresh());
+const updateTimeToRefresh = setInterval(() => timeToRefresh.value = calculateTimeToRefresh(), 250);
 
 onMounted(() => {
   if (collapsibleElement.value) {

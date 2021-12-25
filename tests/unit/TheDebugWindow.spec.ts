@@ -5,10 +5,22 @@ import { DebugMessage, DebugMessageType } from '@/debug/debug-message';
 
 
 const START_TIME = 0;
-const NEXT_REFRESH = START_TIME + 5000;
+const TIME_TO_REFRESH = 5000;
+const NEXT_REFRESH = START_TIME + TIME_TO_REFRESH;
 beforeAll(() => {
   jest.useFakeTimers('modern');
-  jest.setSystemTime(new Date(START_TIME));
+  jest.setSystemTime(START_TIME);
+});
+
+const DATE_TO_USE = new Date(START_TIME);
+const _Date = Date;
+// @ts-ignore
+global.Date = jest.fn(() => DATE_TO_USE);
+// @ts-ignore
+global.Date.now = _Date.now;
+
+afterAll(() => {
+  jest.useRealTimers();
 });
 
 const LOG_CONTENTS = {
@@ -47,4 +59,22 @@ describe('TheDebugWindow', () => {
     expect(logEntry.text()).toContain(MESSAGE_TYPE);
     expect(logEntry.text().replaceAll(/\s/g, '')).toContain(JSON.stringify(LOG_CONTENTS));
   });
+
+  it('contains at least the time to refresh', () => {
+    const timeToRefreshInView = wrapper.text().match(/Next quote in: (\d+)/);
+    console.log(wrapper.html());
+  
+    expect(timeToRefreshInView).not.toBeNull();
+    expect(+timeToRefreshInView![1]).toEqual(TIME_TO_REFRESH / 1000);
+  });
+
+  // TODO: I would love being able to do this, but I had to do some weird stuff to mock
+  // Date. Don't jest fake timers work? Do they work only in the test? Investigate it
+  //it('one second later, the counter is one less', () => {
+    //jest.advanceTimersByTime(1000);
+    //const timeToRefreshInView = wrapper.text().match(/Next quote in: (\d+)/);
+
+    //expect(timeToRefreshInView).not.toBeNull();
+    //expect(+timeToRefreshInView![1]).toEqual((TIME_TO_REFRESH / 1000) - 1);
+  //});
 });

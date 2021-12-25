@@ -6,6 +6,12 @@ import { TEST_QUOTE } from '../test-data';
 
 createTestingPinia();
 
+beforeEach(() => {
+  jest.useFakeTimers('modern');
+  // @ts-ignore
+  jest.spyOn(global, 'setTimeout');
+});
+
 const store = useStore();
 
 const mockProvider: QuoteProvider = {
@@ -18,34 +24,37 @@ store.provider = mockProvider;
 const mockUpdateQuote = jest.fn();
 
 describe('Autoplay', () => {
-  const autoplay = new Autoplay(mockUpdateQuote);
+  describe('on creation', () => {
+    const autoplay = new Autoplay(mockUpdateQuote);
+
+    it('is enabled', () => {
+      expect(autoplay.enabled).toBe(true);
+    });
+
+    it('requests a quote from provider', () => {
+      expect(mockProvider.request).toHaveBeenCalled();
+    });
+
+    it('sets the quote', () => {
+      expect(mockUpdateQuote).toHaveBeenCalled();
+      expect(mockUpdateQuote).toHaveBeenCalledWith(TEST_QUOTE);
+    });
+  });
   
-  it('requests a quote on creation', () => {
-    expect(mockProvider.request).toHaveBeenCalledTimes(1);
-  });
+  describe('when toggling', () => {
+    const autoplay = new Autoplay(mockUpdateQuote);
 
-  it('updates the quote with that one', () => {
-    expect(mockUpdateQuote).toHaveBeenCalledTimes(1);
-    expect(mockUpdateQuote).toHaveBeenCalledWith(TEST_QUOTE);
-  });
-
-  describe('when toggled', () => {
-    it('if enabled, gets disabled', async () => {
-      expect(autoplay.enabled).toBe(true);
+    it('is disabled on first toggle', () => {
       autoplay.toggle();
-
-      expect(autoplay.enabled).toBe(false);
-    });
-
-    it('if disabled, gets enabled', () => {
-      autoplay.toggle();
-
       expect(autoplay.enabled).toBe(true);
     });
-  });
 
-  // TODO: Test the reset, preferably including time logic (useFakeTimers)
-  describe('when reset', () => {
-    jest.clearAllMocks();
+    describe('when toggled on', () => {
+      autoplay.toggle();
+
+      it('is enabled', () => {
+        expect(autoplay.enabled).toBe(true);
+      });
+    });
   });
 });

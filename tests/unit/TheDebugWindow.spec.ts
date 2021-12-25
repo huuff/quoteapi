@@ -31,6 +31,10 @@ const FAKE_MESSAGE = new DebugMessage(MESSAGE_TYPE, LOG_CONTENTS );
 const log = new RingBuffer<DebugMessage>(1);
 log.add(FAKE_MESSAGE)
 
+// FUTURE: Things I'd like to test but can't
+// * That the countdown to next quote decreases when time passes. But Vue doesn't seem to be able to use `useFakeTimers` at all. `new Date()` is faked here, but not inside the component
+// * That the window is actually shown, and also that it collapses when the button is clicked when shown. This seems impossible since I can't find a way to wait for the Bootstrap animation to stop
+
 describe('TheDebugWindow', () => {
   const wrapper = mount(TheDebugWindow, {
     props: {
@@ -62,19 +66,9 @@ describe('TheDebugWindow', () => {
 
   it('contains at least the time to refresh', () => {
     const timeToRefreshInView = wrapper.text().match(/Next quote in: (\d+)/);
-    console.log(wrapper.html());
   
     expect(timeToRefreshInView).not.toBeNull();
     expect(+timeToRefreshInView![1]).toEqual(TIME_TO_REFRESH / 1000);
   });
 
-  // TODO: I would love being able to do this, but I had to do some weird stuff to mock
-  // Date. Don't jest fake timers work? Do they work only in the test? Investigate it
-  //it('one second later, the counter is one less', () => {
-    //jest.advanceTimersByTime(1000);
-    //const timeToRefreshInView = wrapper.text().match(/Next quote in: (\d+)/);
-
-    //expect(timeToRefreshInView).not.toBeNull();
-    //expect(+timeToRefreshInView![1]).toEqual((TIME_TO_REFRESH / 1000) - 1);
-  //});
 });

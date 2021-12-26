@@ -15,8 +15,12 @@ export class JsonQuoteProvider implements QuoteProvider {
 
   private quotes: Quote[];
 
-  constructor() {
-    this.quotes = sampleQuotes;
+  constructor(quotes?: Quote[]) {
+    if (quotes) {
+      this.quotes = quotes;
+    } else {
+      this.quotes = sampleQuotes;
+    }
   }
 
   request(type: 'random'): Promise<Quote>;

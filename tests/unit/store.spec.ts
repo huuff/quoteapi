@@ -4,6 +4,12 @@ import { useStore } from '@/store';
 
 beforeEach(() => {
   setActivePinia(createPinia());
+  jest.spyOn(window.localStorage.__proto__, 'setItem');
+});
+
+afterEach(() => {
+  jest.clearAllMocks();
+  localStorage.clear();
 });
 
 describe('store', () => {
@@ -30,7 +36,6 @@ describe('store', () => {
     });
 
     it('when toggled, saves to localStorage', () => {
-      jest.spyOn(window.localStorage.__proto__, 'setItem');
       const store = useStore();
       store.toggleExpertMode();
       expect(localStorage.setItem).toHaveBeenCalledTimes(1);
@@ -42,6 +47,38 @@ describe('store', () => {
       const firstVal = store.expertMode;
       store.toggleExpertMode();
       expect(store.expertMode).not.toBe(firstVal);
+    });
+  });
+
+  describe('favorite quotes', () => {
+    it('is initially empty', () => {
+      const store = useStore();
+      expect(store.favoriteQuotes.size).toBe(0);
+    });
+
+    describe('when a favorite is added', () => {
+      const TEST_ID = 'test';
+
+      it('it is in the set', () => {
+        const store = useStore();
+        store.toggleFavorite(TEST_ID)
+        expect(store.favoriteQuotes.has(TEST_ID));
+      });
+
+      it('is saved to localStorage', () => {
+        const store = useStore();
+        store.toggleFavorite(TEST_ID)
+        expect(localStorage.setItem).toHaveBeenCalledTimes(1);
+        expect(localStorage.setItem).toHaveBeenCalledWith('liked', JSON.stringify([ TEST_ID ]));
+      });
+
+      it('removed it when toggled again', () => {
+        const store = useStore();
+        store.toggleFavorite(TEST_ID)
+        expect(store.favoriteQuotes.has(TEST_ID));
+        store.toggleFavorite(TEST_ID);
+        expect(store.favoriteQuotes.has(TEST_ID)).toBe(false);
+      });
     });
   });
 });

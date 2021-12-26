@@ -90,4 +90,17 @@ describe('Autoplay', () => {
       expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), expect.toSatisfy(n => n >= fakeQuoteLength));
     });
   });
+
+  it('after timeout, a new request is made', () => {
+    jest.useFakeTimers('modern');
+
+    const mockProvider = createMockProvider();
+    const mockUpdateQuote = jest.fn();
+    const autoplay = new Autoplay(mockUpdateQuote);
+
+    expect(mockProvider.request).toHaveBeenCalledTimes(1);
+    autoplay.resetTimeout(1);
+    jest.runAllTimers();
+    expect(mockProvider.request).toHaveBeenCalledTimes(2);
+  });
 });

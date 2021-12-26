@@ -19,6 +19,8 @@ beforeEach(() => {
   jest.useFakeTimers('modern');
   // @ts-ignore
   jest.spyOn(global, 'setTimeout');
+  // @ts-ignore
+  jest.spyOn(global, 'clearTimeout');
 });
 
 afterAll(() => {
@@ -67,6 +69,25 @@ describe('Autoplay', () => {
       it('requests another quote from provider', () => {
         expect(mockProvider.request).toHaveBeenCalledTimes(1);
       });
+    });
+  });
+
+  describe('when timeout is reset', () => {
+    const mockProvider = createMockProvider();
+    const mockUpdateQuote = jest.fn();
+    const autoplay = new Autoplay(mockUpdateQuote);
+    (mockProvider.request as jest.MockedFunction<any>).mockClear();
+    
+    const fakeQuoteLength = 140;
+    autoplay.resetTimeout(fakeQuoteLength);
+
+    it('clears a timeout', () => {
+      expect(clearTimeout).toHaveBeenCalledTimes(1);
+    });
+
+    it('sets a new timeout with at least ten times the length of the quote', () => {
+      expect(setTimeout).toHaveBeenCalledTimes(1);
+      expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), expect.any(Number));
     });
   });
 });

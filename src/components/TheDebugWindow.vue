@@ -2,7 +2,11 @@
 <div class="card shadow">
   <div class="card-header d-flex flex-row justify-content-between align-items-baseline">
     <h5 class="d-inline">Debug </h5>
-    <button type="button" @click="show = !show" class="btn btn-outline">
+    <button 
+      type="button"
+      @click="show = !show"
+      class="btn btn-outline"
+      id="toggleDebugWindow">
         <font-awesome-icon :icon="show ? 'chevron-down' : 'chevron-up'"></font-awesome-icon>
     </button>
   </div>

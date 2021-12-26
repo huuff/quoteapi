@@ -22,4 +22,19 @@ describe('store', () => {
     expect(Array.from(store.favoriteQuotes)).toStrictEqual(FAVORITE_QUOTES);
     expect(store.expertMode).toBe(EXPERT_MODE);
   });
+
+  describe('expert mode', () => {
+    it('is initially false', () => {
+      const store = useStore();
+      expect(store.expertMode).toBe(false);
+    });
+
+    it('when toggled, saves to localStorage', () => {
+      jest.spyOn(window.localStorage.__proto__, 'setItem');
+      const store = useStore();
+      store.toggleExpertMode();
+      expect(localStorage.setItem).toHaveBeenCalledTimes(1);
+      expect(localStorage.setItem).toHaveBeenCalledWith('expertMode', JSON.stringify(store.expertMode));
+    });
+  });
 });

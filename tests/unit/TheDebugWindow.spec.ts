@@ -70,4 +70,9 @@ describe('TheDebugWindow.vue', () => {
 
   });
 
+  // FUTURE: Also would love to test that, as time passes, the
+  // countdown to next quote decreases. But I've found no way to
+  // do it. Vue mounted components don't seem to notice
+  // jest.advanceTimers
+
 });

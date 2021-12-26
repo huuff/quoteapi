@@ -8,4 +8,5 @@ module.exports = {
     'src/**/*.{ts,vue}',
     '!src/main.ts',
   ],
+  "setupFilesAfterEnv": ["jest-extended/all"]
 };

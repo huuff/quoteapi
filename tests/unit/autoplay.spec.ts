@@ -87,7 +87,7 @@ describe('Autoplay', () => {
 
     it('sets a new timeout with at least ten times the length of the quote', () => {
       expect(setTimeout).toHaveBeenCalledTimes(1);
-      expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), expect.any(Number));
+      expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), expect.toSatisfy(n => n >= fakeQuoteLength));
     });
   });
 });

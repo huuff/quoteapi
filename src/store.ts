@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
-import { QuoteProvider, ProviderType, getProvider } from '@/quotes/quote-provider';
+import { QuoteProvider, ProviderType, } from '@/quotes/quote-provider';
+import { getProvider } from '@/quotes/provider-factory';
 
 interface State {
   favoriteQuotes: Set<string>;

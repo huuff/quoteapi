@@ -15,8 +15,8 @@ export class JsonQuoteProvider implements QuoteProvider {
 
   private quotes: Quote[];
 
-  constructor() {
-    this.quotes = sampleQuotes;
+  constructor(quotes: Quote[] = sampleQuotes) {
+    this.quotes = quotes;
   }
 
   request(type: 'random'): Promise<Quote>;
@@ -33,7 +33,7 @@ export class JsonQuoteProvider implements QuoteProvider {
     } else if (type === 'id') {
       return checkNotEmpty(this.quotes.filter(q => q.id === query))[0];
     } else {
-      throw new Error();
+      throw Error();
     }
   }
 

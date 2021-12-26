@@ -14,7 +14,7 @@ const store = useStore();
 describe('TheExpertModeSwitch', () => {
   it('toggles expert mode in the store when clicked', () => {
 
-    wrapper.find("input[type='checkbox']").setValue(true);
+    wrapper.get("input[type='checkbox']").setValue(true);
 
     expect(store.toggleExpertMode).toHaveBeenCalledTimes(1);
   });

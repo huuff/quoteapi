@@ -15,13 +15,13 @@ const store = useStore();
 
 describe('TheProviderSelector.vue', () => {
   it('sets provider in store on change', () => {
-    wrapper.find('select').setValue(ProviderType.embedded); 
+    wrapper.get('select').setValue(ProviderType.embedded); 
 
     expect(store.setProvider).toHaveBeenCalledTimes(1);
   });
 
   it('emits on provider change', () => {
-    wrapper.find('select').setValue(ProviderType.quotable);
+    wrapper.get('select').setValue(ProviderType.quotable);
 
     expect(Object.keys(wrapper.emitted())).toContain('changeProvider');
   });

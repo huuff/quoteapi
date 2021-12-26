@@ -47,17 +47,17 @@ describe('TheDebugWindow', () => {
   });  
 
   it('is initially not shown', () => {
-    expect(wrapper.find('.collapse').element.classList).not.toContain('show');
+    expect(wrapper.get('.collapse').element.classList).not.toContain('show');
   });
 
   it('is opens when the expand button is clicked', async () => {
-    await wrapper.find('.card-header button').trigger('click');
+    await wrapper.get('.card-header button').trigger('click');
 
     expect(wrapper.find('.collapsing').exists());
   });
 
   it('contains the logged message', () => {
-    const logEntry = wrapper.find('ul li');
+    const logEntry = wrapper.get('ul li');
 
     expect(logEntry.text()).toContain(START_TIME);
     expect(logEntry.text()).toContain(MESSAGE_TYPE);

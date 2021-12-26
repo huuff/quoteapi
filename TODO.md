@@ -1,7 +1,6 @@
 # Task
 * Add at least 10 quotes (hardcoded)
 * Test it
-* Change my (test) `find` for `get`
 * Try to test the Bootstrap stuff for `TheDebugWindow` with `$forceUpdate`
 
 # Future

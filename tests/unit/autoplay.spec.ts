@@ -1,10 +1,19 @@
 import { Autoplay } from '@/autoplay';
-import { createTestingPinia } from '@pinia/testing';
+import { setActivePinia, createPinia } from 'pinia';
 import { QuoteProvider, ProviderType } from '@/quotes/quote-provider';
 import { useStore } from '@/store';
 import { TEST_QUOTE } from '../test-data';
 
-createTestingPinia();
+function createMockProvider(): QuoteProvider {
+  setActivePinia(createPinia());
+  const store = useStore();
+  const mockProvider = {
+    type: ProviderType.embedded,
+    request: jest.fn(() => Promise.resolve(TEST_QUOTE)),
+  };
+  store.provider = mockProvider;
+  return mockProvider;
+};
 
 beforeEach(() => {
   jest.useFakeTimers('modern');
@@ -12,19 +21,15 @@ beforeEach(() => {
   jest.spyOn(global, 'setTimeout');
 });
 
-const store = useStore();
+afterAll(() => {
+  jest.useRealTimers();
+});
 
-const mockProvider: QuoteProvider = {
-  type: ProviderType.embedded,
-  request: jest.fn(() => Promise.resolve(TEST_QUOTE)),
-};
-
-store.provider = mockProvider;
-
-const mockUpdateQuote = jest.fn();
 
 describe('Autoplay', () => {
   describe('on creation', () => {
+    const mockProvider = createMockProvider();
+    const mockUpdateQuote = jest.fn();
     const autoplay = new Autoplay(mockUpdateQuote);
 
     it('is enabled', () => {
@@ -42,6 +47,8 @@ describe('Autoplay', () => {
   });
   
   describe('when toggling', () => {
+    const mockProvider = createMockProvider();
+    const mockUpdateQuote = jest.fn();
     const autoplay = new Autoplay(mockUpdateQuote);
 
     it('is disabled on first toggle', () => {
@@ -50,10 +57,15 @@ describe('Autoplay', () => {
     });
 
     describe('when toggled on', () => {
+      (mockProvider.request as jest.MockedFunction<any>).mockClear();
       autoplay.toggle();
 
       it('is enabled', () => {
         expect(autoplay.enabled).toBe(true);
+      });
+
+      it('requests another quote from provider', () => {
+        expect(mockProvider.request).toHaveBeenCalledTimes(1);
       });
     });
   });

@@ -36,5 +36,12 @@ describe('store', () => {
       expect(localStorage.setItem).toHaveBeenCalledTimes(1);
       expect(localStorage.setItem).toHaveBeenCalledWith('expertMode', JSON.stringify(store.expertMode));
     });
+
+    it('when toggled, it changes', () => {
+      const store = useStore();
+      const firstVal = store.expertMode;
+      store.toggleExpertMode();
+      expect(store.expertMode).not.toBe(firstVal);
+    });
   });
 });

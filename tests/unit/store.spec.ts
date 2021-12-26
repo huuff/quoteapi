@@ -81,4 +81,12 @@ describe('store', () => {
       });
     });
   });
+
+  it('saves to localStorage when changing the provider', () => {
+    const store = useStore();
+    store.setProvider(ProviderType.quotable);
+    expect(localStorage.setItem).toHaveBeenCalledWith(
+      'provider', ProviderType.quotable
+    );
+  });
 });
